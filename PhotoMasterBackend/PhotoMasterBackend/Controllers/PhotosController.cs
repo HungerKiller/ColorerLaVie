@@ -45,7 +45,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // GET api/Photos/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetPhoto")]
         public async Task<ActionResult> GetAsync(int id)
         {
             try
@@ -73,7 +73,7 @@ namespace PhotoMasterBackend.Controllers
 
                 var createdPhoto = await _photoRepository.AddPhotoAsync(_mapper.Map<Models.Photo>(photo));
                 var photoDTO = _mapper.Map<DTOs.Photo>(createdPhoto);
-                return CreatedAtAction(nameof(GetAsync), new { id = photoDTO.Id }, photoDTO);
+                return CreatedAtRoute("GetPhoto", new { id = photoDTO.Id }, photoDTO);
             }
             catch (Exception)
             {

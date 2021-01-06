@@ -45,7 +45,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // GET api/Labels/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetLabel")]
         public async Task<ActionResult> GetAsync(int id)
         {
             try
@@ -99,7 +99,7 @@ namespace PhotoMasterBackend.Controllers
                 // Create Label
                 var createdLabel = await _labelRepository.AddLabelAsync(_mapper.Map<Models.Label>(label));
                 var labelDTO = _mapper.Map<DTOs.Label>(createdLabel);
-                return CreatedAtAction(nameof(GetAsync), new { id = labelDTO.Id }, labelDTO);
+                return CreatedAtRoute("GetLabel", new { id = labelDTO.Id }, labelDTO);
             }
             catch (Exception)
             {
