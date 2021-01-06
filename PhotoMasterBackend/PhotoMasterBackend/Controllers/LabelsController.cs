@@ -28,7 +28,7 @@ namespace PhotoMasterBackend.Controllers
 
         // GET: api/Labels
         [HttpGet]
-        public async Task<ActionResult> GetAsync()
+        public async Task<ActionResult> GetsAsync()
         {
             try
             {
@@ -71,27 +71,10 @@ namespace PhotoMasterBackend.Controllers
                 if (label == null)
                     return BadRequest();
 
-                // Check label existence
-                var labels = await _labelRepository.GetLabelsAsync();
-                if (labels.Any(l => l.Name == label.Name))
-                {
-                    var msg = $"Label '{label.Name}' already exists.";
-                    _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status400BadRequest, msg);
-                }
-
                 // Validate label
-                // Label should not contain character whitespace
-                if (label.Name.Contains(' '))
+                var (statusCode, msg) = await ValidateLabel(label);
+                if (statusCode == StatusCodes.Status400BadRequest)
                 {
-                    var msg = $"Label should not contain character whitespace";
-                    _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status400BadRequest, msg);
-                }
-                // Label length should be greater than 5 characters
-                if (label.Name.Length <= 5)
-                {
-                    var msg = $"Label's length should be greater than 5 characters.";
                     _logger.LogError(msg);
                     return StatusCode(StatusCodes.Status400BadRequest, msg);
                 }
@@ -119,8 +102,16 @@ namespace PhotoMasterBackend.Controllers
                 {
                     return BadRequest();
                 }
-                var labelUpdated = await _labelRepository.UpdateLabelAsync(_mapper.Map<Models.Label>(label));
 
+                // Validate label
+                var (statusCode, msg) = await ValidateLabel(label);
+                if(statusCode == StatusCodes.Status400BadRequest)
+                {
+                    _logger.LogError(msg);
+                    return StatusCode(StatusCodes.Status400BadRequest, msg);
+                }
+
+                var labelUpdated = await _labelRepository.UpdateLabelAsync(_mapper.Map<Models.Label>(label));
                 if (labelUpdated == null)
                     return NotFound();
 
@@ -150,6 +141,28 @@ namespace PhotoMasterBackend.Controllers
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
+        }
+
+        private async Task<(int, string)> ValidateLabel(DTOs.Label label)
+        {
+            // Check label existence
+            var labels = await _labelRepository.GetLabelsAsync();
+            if (labels.Any(l => l.Name == label.Name))
+            {
+                return (StatusCodes.Status400BadRequest, $"Label '{label.Name}' already exists.");
+            }
+            // Label should not contain character whitespace
+            if (label.Name.Contains(' '))
+            {
+                return (StatusCodes.Status400BadRequest, $"Label should not contain character whitespace");
+            }
+            // Label length should be greater than 5 characters
+            if (label.Name.Length <= 5)
+            {
+                return (StatusCodes.Status400BadRequest, $"Label's length should be greater than 5 characters.");
+            }
+
+            return (200, null);
         }
     }
 }
