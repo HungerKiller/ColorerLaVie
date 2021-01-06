@@ -1,11 +1,58 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using PhotoMasterBackend.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PhotoMasterBackend.Repositories
 {
-    public class LabelRepository
+    public class LabelRepository : ILabelRepository
     {
+        private readonly PhotoContext _context;
+
+        public LabelRepository(PhotoContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IEnumerable<Label>> GetLabels()
+        {
+            return await _context.Labels.ToListAsync();
+        }
+
+        public async Task<Label> GetLabel(int labelId)
+        {
+            return await _context.Labels.FindAsync(labelId);
+        }
+
+        public async Task<Label> AddLabel(Label label)
+        {
+            var result = await _context.Labels.AddAsync(label);
+            await _context.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        public async Task<Label> UpdateLabel(Label label)
+        {
+            var result = await _context.Labels.FindAsync(label.Id);
+
+            if (result != null)
+            {
+                result.Name = label.Name;
+                await _context.SaveChangesAsync();
+                return result;
+            }
+
+            return null;
+        }
+
+        public async Task DeleteLabel(int labelId)
+        {
+            var result = await _context.Labels.FindAsync(labelId);
+            if (result != null)
+            {
+                _context.Labels.Remove(result);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

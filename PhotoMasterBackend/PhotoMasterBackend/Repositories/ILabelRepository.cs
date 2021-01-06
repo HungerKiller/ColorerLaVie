@@ -10,6 +10,6 @@ namespace PhotoMasterBackend.Repositories
         Task<Label> GetLabel(int labelId);
         Task<Label> AddLabel(Label label);
         Task<Label> UpdateLabel(Label label);
-        void DeleteLabel(int labelId);
+        Task DeleteLabel(int labelId);
     }
 }

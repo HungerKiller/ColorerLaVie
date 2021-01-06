@@ -10,6 +10,6 @@ namespace PhotoMasterBackend.Repositories
         Task<Photo> GetPhoto(int photoId);
         Task<Photo> AddPhoto(Photo photo);
         Task<Photo> UpdatePhoto(Photo photo);
-        void DeletePhoto(int photoId);
+        Task DeletePhoto(int photoId);
     }
 }
