@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace PhotoMasterBackend.Repositories
 {
-    interface IPhotoRepository
+    public interface IPhotoRepository
     {
         Task<IEnumerable<Photo>> GetPhotosAsync();
         Task<Photo> GetPhotoAsync(int photoId);

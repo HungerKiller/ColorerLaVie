@@ -77,7 +77,7 @@ namespace PhotoMasterBackend.Controllers
                 {
                     var msg = $"Label '{label.Name}' already exists.";
                     _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                    return StatusCode(StatusCodes.Status400BadRequest, msg);
                 }
 
                 // Validate label
@@ -86,14 +86,14 @@ namespace PhotoMasterBackend.Controllers
                 {
                     var msg = $"Label should not contain character whitespace";
                     _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                    return StatusCode(StatusCodes.Status400BadRequest, msg);
                 }
                 // Label length should be greater than 5 characters
                 if (label.Name.Length <= 5)
                 {
                     var msg = $"Label's length should be greater than 5 characters.";
                     _logger.LogError(msg);
-                    return StatusCode(StatusCodes.Status500InternalServerError, msg);
+                    return StatusCode(StatusCodes.Status400BadRequest, msg);
                 }
 
                 // Create Label
@@ -139,8 +139,17 @@ namespace PhotoMasterBackend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            await _labelRepository.DeleteLabelAsync(id);
-            return NoContent();
+            try
+            {
+                await _labelRepository.DeleteLabelAsync(id);
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                var msg = "Error occurred while deleting data of database.";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
         }
     }
 }
