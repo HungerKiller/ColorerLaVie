@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PhotoMasterBackend.Mappings;
+using PhotoMasterBackend.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +31,13 @@ namespace PhotoMasterBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PhotoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PhotoDatabase")));
+
+            // Repositories
+            services.AddScoped<ILabelRepository, LabelRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
+
+            // Auto Mapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
