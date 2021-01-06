@@ -14,24 +14,24 @@ namespace PhotoMasterBackend.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Photo>> GetPhotos()
+        public async Task<IEnumerable<Photo>> GetPhotosAsync()
         {
             return await _context.Photos.Include(p => p.Labels).ToListAsync();
         }
 
-        public async Task<Photo> GetPhoto(int photoId)
+        public async Task<Photo> GetPhotoAsync(int photoId)
         {
             return await _context.Photos.Include(p => p.Labels).FirstOrDefaultAsync(p => p.Id == photoId);
         }
 
-        public async Task<Photo> AddPhoto(Photo photo)
+        public async Task<Photo> AddPhotoAsync(Photo photo)
         {
             var result = await _context.Photos.AddAsync(photo);
             await _context.SaveChangesAsync();
             return result.Entity;
         }
 
-        public async Task<Photo> UpdatePhoto(Photo photo)
+        public async Task<Photo> UpdatePhotoAsync(Photo photo)
         {
             var result = await _context.Photos.FindAsync(photo.Id);
 
@@ -48,7 +48,7 @@ namespace PhotoMasterBackend.Repositories
             return null;
         }
 
-        public async Task DeletePhoto(int photoId)
+        public async Task DeletePhotoAsync(int photoId)
         {
             var result = await _context.Photos.FindAsync(photoId);
             if (result != null)

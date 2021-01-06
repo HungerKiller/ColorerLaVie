@@ -6,10 +6,10 @@ namespace PhotoMasterBackend.Repositories
 {
     public interface ILabelRepository
     {
-        Task<IEnumerable<Label>> GetLabels();
-        Task<Label> GetLabel(int labelId);
-        Task<Label> AddLabel(Label label);
-        Task<Label> UpdateLabel(Label label);
-        Task DeleteLabel(int labelId);
+        Task<IEnumerable<Label>> GetLabelsAsync();
+        Task<Label> GetLabelAsync(int labelId);
+        Task<Label> AddLabelAsync(Label label);
+        Task<Label> UpdateLabelAsync(Label label);
+        Task DeleteLabelAsync(int labelId);
     }
 }

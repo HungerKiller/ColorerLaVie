@@ -6,10 +6,10 @@ namespace PhotoMasterBackend.Repositories
 {
     interface IPhotoRepository
     {
-        Task<IEnumerable<Photo>> GetPhotos();
-        Task<Photo> GetPhoto(int photoId);
-        Task<Photo> AddPhoto(Photo photo);
-        Task<Photo> UpdatePhoto(Photo photo);
-        Task DeletePhoto(int photoId);
+        Task<IEnumerable<Photo>> GetPhotosAsync();
+        Task<Photo> GetPhotoAsync(int photoId);
+        Task<Photo> AddPhotoAsync(Photo photo);
+        Task<Photo> UpdatePhotoAsync(Photo photo);
+        Task DeletePhotoAsync(int photoId);
     }
 }

@@ -14,24 +14,24 @@ namespace PhotoMasterBackend.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Label>> GetLabels()
+        public async Task<IEnumerable<Label>> GetLabelsAsync()
         {
             return await _context.Labels.ToListAsync();
         }
 
-        public async Task<Label> GetLabel(int labelId)
+        public async Task<Label> GetLabelAsync(int labelId)
         {
             return await _context.Labels.FindAsync(labelId);
         }
 
-        public async Task<Label> AddLabel(Label label)
+        public async Task<Label> AddLabelAsync(Label label)
         {
             var result = await _context.Labels.AddAsync(label);
             await _context.SaveChangesAsync();
             return result.Entity;
         }
 
-        public async Task<Label> UpdateLabel(Label label)
+        public async Task<Label> UpdateLabelAsync(Label label)
         {
             var result = await _context.Labels.FindAsync(label.Id);
 
@@ -45,7 +45,7 @@ namespace PhotoMasterBackend.Repositories
             return null;
         }
 
-        public async Task DeleteLabel(int labelId)
+        public async Task DeleteLabelAsync(int labelId)
         {
             var result = await _context.Labels.FindAsync(labelId);
             if (result != null)
