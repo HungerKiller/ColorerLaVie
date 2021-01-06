@@ -154,7 +154,7 @@ namespace PhotoMasterBackend.Controllers
             // Label should not contain character whitespace
             if (label.Name.Contains(' '))
             {
-                return (StatusCodes.Status400BadRequest, $"Label should not contain character whitespace");
+                return (StatusCodes.Status400BadRequest, $"Label should not contain character whitespace.");
             }
             // Label length should be greater than 5 characters
             if (label.Name.Length <= 5)

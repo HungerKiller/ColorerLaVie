@@ -28,7 +28,7 @@ namespace PhotoMasterBackend.Controllers
 
         // GET: api/Photos
         [HttpGet]
-        public async Task<ActionResult> GetAsync()
+        public async Task<ActionResult> GetsAsync()
         {
             try
             {
