@@ -16,12 +16,12 @@ namespace PhotoMasterBackend.Repositories
 
         public async Task<IEnumerable<Photo>> GetPhotosAsync()
         {
-            return await _context.Photos.Include(p => p.Labels).ToListAsync();
+            return await _context.Photos.Include(p => p.PhotoLabels).ToListAsync();
         }
 
         public async Task<Photo> GetPhotoAsync(int photoId)
         {
-            return await _context.Photos.Include(p => p.Labels).FirstOrDefaultAsync(p => p.Id == photoId);
+            return await _context.Photos.Include(p => p.PhotoLabels).FirstOrDefaultAsync(p => p.Id == photoId);
         }
 
         public async Task<Photo> AddPhotoAsync(Photo photo)
@@ -40,7 +40,6 @@ namespace PhotoMasterBackend.Repositories
                 result.Date = photo.Date;
                 result.Location = photo.Location;
                 result.Description = photo.Description;
-                result.Labels = photo.Labels;
                 await _context.SaveChangesAsync();
                 return result;
             }

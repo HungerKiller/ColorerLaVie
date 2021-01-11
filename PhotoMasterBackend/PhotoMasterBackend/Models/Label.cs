@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PhotoMasterBackend.Models
 {
@@ -6,5 +7,7 @@ namespace PhotoMasterBackend.Models
     {
         [Required]
         public string Name { get; set; }
+
+        public ICollection<PhotoLabel> PhotoLabels { get; set; }
     }
 }

@@ -13,6 +13,6 @@ namespace PhotoMasterBackend.Models
 
         public string Description { get; set; }
 
-        public ICollection<Label> Labels { get; set; }
+        public ICollection<PhotoLabel> PhotoLabels { get; set; }
     }
 }
