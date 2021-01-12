@@ -105,7 +105,7 @@ namespace PhotoMasterBackend.Controllers
 
                 // Validate label
                 var (statusCode, msg) = await ValidateLabel(label);
-                if(statusCode == StatusCodes.Status400BadRequest)
+                if (statusCode == StatusCodes.Status400BadRequest)
                 {
                     _logger.LogError(msg);
                     return StatusCode(StatusCodes.Status400BadRequest, msg);
@@ -132,6 +132,12 @@ namespace PhotoMasterBackend.Controllers
         {
             try
             {
+                var label = await _labelRepository.GetLabelWithPhotosAsync(id);
+                if (label == null)
+                    return BadRequest($"Label with id '{id}' not found.");
+                // Find all photos who use this label
+                if (label.PhotoLabels != null && label.PhotoLabels.Count() != 0)
+                    return BadRequest($"Can not remove this label, cause it is in use.");
                 await _labelRepository.DeleteLabelAsync(id);
                 return NoContent();
             }

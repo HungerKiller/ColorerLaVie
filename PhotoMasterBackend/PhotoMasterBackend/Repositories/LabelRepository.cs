@@ -24,6 +24,11 @@ namespace PhotoMasterBackend.Repositories
             return await _context.Labels.FindAsync(labelId);
         }
 
+        public async Task<Label> GetLabelWithPhotosAsync(int labelId)
+        {
+            return await _context.Labels.Include(l => l.PhotoLabels).ThenInclude(pl => pl.Photo).FirstOrDefaultAsync(l => l.Id == labelId);
+        }
+
         public async Task<Label> AddLabelAsync(Label label)
         {
             var result = await _context.Labels.AddAsync(label);
