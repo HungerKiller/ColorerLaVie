@@ -70,9 +70,10 @@ namespace PhotoMasterBackend.Controllers
             {
                 if (photo == null)
                     return BadRequest();
-
+                // Create photo
                 var createdPhoto = await _photoRepository.AddPhotoAsync(_mapper.Map<Models.Photo>(photo));
-                var photoDTO = _mapper.Map<DTOs.Photo>(createdPhoto);
+                // Get created photo
+                var photoDTO = _mapper.Map<DTOs.Photo>(await _photoRepository.GetPhotoAsync(createdPhoto.Id));
                 return CreatedAtRoute("GetPhoto", new { id = photoDTO.Id }, photoDTO);
             }
             catch (Exception)
@@ -90,14 +91,18 @@ namespace PhotoMasterBackend.Controllers
             try
             {
                 if (id != photo.Id)
-                {
                     return BadRequest();
+                // Check label's id
+                foreach(var l in photo.Labels)
+                {
+                    var label = await _labelRepository.GetLabelAsync(l.Id);
+                    if (label == null)
+                        return BadRequest($"Label with id '{l.Id}' not found!");
                 }
+                // Update photo
                 var photoUpdated = await _photoRepository.UpdatePhotoAsync(_mapper.Map<Models.Photo>(photo));
-
                 if (photoUpdated == null)
                     return NotFound();
-
                 var photoDTO = _mapper.Map<DTOs.Photo>(photoUpdated);
                 return Ok(photoDTO);
             }
