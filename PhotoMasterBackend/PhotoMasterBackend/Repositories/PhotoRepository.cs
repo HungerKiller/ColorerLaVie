@@ -38,6 +38,7 @@ namespace PhotoMasterBackend.Repositories
             if (result != null)
             {
                 result.Date = photo.Date;
+                result.Path = photo.Path;
                 result.Location = photo.Location;
                 result.Description = photo.Description;
                 // todo 用这种方式更新ICollection，即使只想改一个值，也会删除DB中所有行，再重新添加
