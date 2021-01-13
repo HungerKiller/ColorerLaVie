@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PhotoMasterBackend.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,6 +63,38 @@ namespace PhotoMasterBackend.Controllers
             }
         }
 
+        // GET api/Photos/5
+        [HttpGet("ByLabels")]
+        public async Task<ActionResult> GetPhotosByLabelsAsync([FromQuery] int[] ids)
+        {
+            try
+            {
+                if (ids == null || ids.Count() == 0)
+                    return BadRequest();
+                // Get first label
+                var firstLabel = await _labelRepository.GetLabelWithPhotosAsync(ids[0]);
+                var photoIdsOfFirstLabel = firstLabel.PhotoLabels.Select(pl => pl.PhotoId);
+                // Find photos
+                var photos = new List<Models.Photo>();
+                foreach (var pid in photoIdsOfFirstLabel)
+                {
+                    var photo = await _photoRepository.GetPhotoAsync(pid);
+                    var labelIds = photo.PhotoLabels.Select(pl => pl.LabelId);
+                    if (labelIds.Intersect(ids).Count() == ids.Count())
+                        photos.Add(photo);
+                }
+
+                var photosDTO = photos.Select(photo => _mapper.Map<DTOs.Photo>(photo));
+                return Ok(photosDTO);
+            }
+            catch (Exception)
+            {
+                var msg = "Error occurred while retrieving data from database.";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
         // POST api/Photos
         [HttpPost]
         public async Task<ActionResult<DTOs.Photo>> PostAsync([FromBody] DTOs.Photo photo)
@@ -93,7 +126,7 @@ namespace PhotoMasterBackend.Controllers
                 if (id != photo.Id)
                     return BadRequest();
                 // Check label's id
-                foreach(var l in photo.Labels)
+                foreach (var l in photo.Labels)
                 {
                     var label = await _labelRepository.GetLabelAsync(l.Id);
                     if (label == null)
@@ -128,6 +161,17 @@ namespace PhotoMasterBackend.Controllers
                 var msg = "Error occurred while deleting data of database.";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
+        [Obsolete]
+        private IEnumerable<Models.Photo> FindPhotosContainsLabels(IEnumerable<Models.Photo> photos, IEnumerable<int> ids)
+        {
+            foreach (var photo in photos)
+            {
+                var labelIds = photo.PhotoLabels.Select(pl => pl.LabelId);
+                if (labelIds.Intersect(ids).Any())
+                    yield return photo;
             }
         }
     }
