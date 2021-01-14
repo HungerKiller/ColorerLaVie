@@ -1,1 +1,25 @@
-<p>menu works!</p>
+<button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>remove_red_eye</mat-icon>
+      <span>Global View</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>photo_library</mat-icon>
+      <span>Detail</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>admin_panel_settings  </mat-icon>
+      <span>Admin</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>contact_mail</mat-icon>
+      <span>Contact</span>
+    </button>
+  </mat-menu>

@@ -10,10 +10,17 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { MenuComponent } from './Components/menu/menu.component';
 
+import { LabelComponent } from './Module-Label/label.component';
+import { PhotoComponent } from './Module-Photo/photo.component';
+import { ContactComponent } from './Components/contact/contact.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    LabelComponent,
+    PhotoComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
