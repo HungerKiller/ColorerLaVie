@@ -27,6 +27,8 @@ namespace PhotoMasterBackend
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -38,6 +40,16 @@ namespace PhotoMasterBackend
 
             // Auto Mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // Cors
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200");
+                                  });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -57,6 +69,8 @@ namespace PhotoMasterBackend
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseRouting();
 
