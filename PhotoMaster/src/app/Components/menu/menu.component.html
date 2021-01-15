@@ -1,25 +1,25 @@
 <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>menu</mat-icon>
+  <mat-icon>menu</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="/home" routerLinkActive="active">
+    <mat-icon>home</mat-icon>
+    <span>Home</span>
   </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-      <mat-icon>home</mat-icon>
-      <span>Home</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>remove_red_eye</mat-icon>
-      <span>Global View</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>photo_library</mat-icon>
-      <span>Detail</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>admin_panel_settings  </mat-icon>
-      <span>Admin</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>contact_mail</mat-icon>
-      <span>Contact</span>
-    </button>
-  </mat-menu>
+  <button mat-menu-item routerLink="/global" routerLinkActive="active">
+    <mat-icon>remove_red_eye</mat-icon>
+    <span>Global View</span>
+  </button>
+  <button mat-menu-item routerLink="/detail" routerLinkActive="active">
+    <mat-icon>photo_library</mat-icon>
+    <span>Detail</span>
+  </button>
+  <button mat-menu-item routerLink="/photo/list" routerLinkActive="active">
+    <mat-icon>admin_panel_settings</mat-icon>
+    <span>Admin</span>
+  </button>
+  <button mat-menu-item routerLink="/contact" routerLinkActive="active">
+    <mat-icon>contact_mail</mat-icon>
+    <span>Contact</span>
+  </button>
+</mat-menu>
