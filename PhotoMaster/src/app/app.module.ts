@@ -13,9 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MenuComponent } from './Components/menu/menu.component';
 import { ContactComponent } from './Components/contact/contact.component';
 import { LabelComponent } from './Module-Label/label.component';
-
-import { LabelListComponent } from './Module-Label/Components/label-list/label-list.component';
-
 import { PhotoComponent } from './Module-Photo/photo.component';
 
 @NgModule({
@@ -24,7 +21,6 @@ import { PhotoComponent } from './Module-Photo/photo.component';
     MenuComponent,
     ContactComponent,
     LabelComponent,
-    LabelListComponent,
     PhotoComponent
   ],
   imports: [
