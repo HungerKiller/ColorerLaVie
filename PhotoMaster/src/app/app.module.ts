@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,12 @@ import { ContactComponent } from './Components/contact/contact.component';
 
 import { LabelModule } from './Module-Label/label.module';
 import { PhotoModule } from './Module-Photo/photo.module';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n';
+import en from '@angular/common/locales/en';
+import { FormsModule } from '@angular/forms';
+
+registerLocaleData(en);
 
 @NgModule({
   declarations: [
@@ -32,9 +38,10 @@ import { PhotoModule } from './Module-Photo/photo.module';
     CommonModule,
     MatMenuModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
