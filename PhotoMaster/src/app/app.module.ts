@@ -12,18 +12,19 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { MenuComponent } from './Components/menu/menu.component';
 import { ContactComponent } from './Components/contact/contact.component';
-import { LabelComponent } from './Module-Label/label.component';
-import { PhotoComponent } from './Module-Photo/photo.component';
+
+import { LabelModule } from './Module-Label/label.module';
+import { PhotoModule } from './Module-Photo/photo.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    ContactComponent,
-    LabelComponent,
-    PhotoComponent
+    ContactComponent
   ],
   imports: [
+    LabelModule,
+    PhotoModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
