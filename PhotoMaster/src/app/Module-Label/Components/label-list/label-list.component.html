@@ -1,7 +1,29 @@
-<p>label-list works!</p>
+<div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+  <div nz-col [nzSpan]="1"></div>
+  <div nz-col [nzSpan]="22">
+    <nz-table #borderedTable nzBordered [nzShowSizeChanger]="true" [nzPageSizeOptions]='[1,2,3,10]' [nzPageSize]="10" 
+    [nzShowTotal]="totalTemplate" [nzData]="labels">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of borderedTable.data">
+          <td>{{ data.id }}</td>
+          <td>{{ data.name }}</td>
+          <td>
+            <button nz-button nzType="primary"><i nz-icon nzType="edit" nzTheme="fill"></i>Edit</button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="primary" nzDanger><i nz-icon nzType="delete" nzTheme="fill"></i>Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <div nz-col [nzSpan]="1"></div>
+</div>
 
-<ul>
-    <li *ngFor="let label of labels">
-        <span>{{label.id}}</span> {{label.name}}
-    </li>
-</ul>
+<ng-template #totalTemplate let-total> Total {{ total }} items </ng-template>
