@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Label } from '../../Models/Label';
 import { LabelService } from '../../Services/label.service';
+import { LabelDetailComponent } from '../label-detail/label-detail.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-label-list',
@@ -9,9 +11,11 @@ import { LabelService } from '../../Services/label.service';
 })
 export class LabelListComponent implements OnInit {
 
+  @ViewChild(LabelDetailComponent) labelDetailComponent : LabelDetailComponent;
+
   labels: Label[];
 
-  constructor(private labelService: LabelService) { }
+  constructor(private labelService: LabelService, private messageService: NzMessageService) { }
 
   ngOnInit(): void {
     this.getLabels();
@@ -19,5 +23,29 @@ export class LabelListComponent implements OnInit {
 
   getLabels(): void {
     this.labelService.getLabels().subscribe(labels => this.labels = labels);
+  }
+
+  editLabel(selectedLabel): void{
+    this.labelDetailComponent.labelId = selectedLabel.id;
+    this.labelDetailComponent.labelName = selectedLabel.name;
+    this.labelDetailComponent.title = "Update";
+    this.labelDetailComponent.visible = true;
+  }
+
+  createLabel(): void{
+    this.labelDetailComponent.title = "Create";
+    this.labelDetailComponent.visible = true;
+  }
+
+  deleteLabel(labelId: number): void {
+    this.labelService.deleteLabel(labelId)
+    .subscribe({
+      next: data => {
+          this.messageService.create("success", "Delete succeed!");
+      },
+      error: error => {
+          this.messageService.create("error", error.error);
+      }
+  });
   }
 }

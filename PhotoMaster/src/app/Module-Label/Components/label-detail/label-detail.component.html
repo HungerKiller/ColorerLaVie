@@ -1,1 +1,31 @@
-<p>label-detail works!</p>
+<nz-drawer [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="false" [nzWidth]="256" [nzVisible]="visible"
+    [nzTitle]="title" [nzFooter]="footerTpl" (nzOnClose)="close()">
+    <ng-container *nzDrawerContent>
+        <div nz-row [nzGutter]="8">
+            <div nz-col nzSpan="24">
+                <nz-input-group nzAddOnBefore = "Id">
+                    <input type="text" nz-input [(ngModel)]="labelId" disabled = "true"/>
+                </nz-input-group>
+            </div>
+        </div>
+        <br/>
+        <div nz-row [nzGutter]="8">
+            <div nz-col nzSpan="24">
+                <nz-input-group nzAddOnBefore = "Name" [nzSuffix]="inputClearTpl">
+                    <input type="text" nz-input [(ngModel)]="labelName" placeholder="input label's name" />
+                </nz-input-group>
+                <ng-template #inputClearTpl>
+                    <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="labelName"
+                        (click)="labelName = null"></i>
+                </ng-template>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #footerTpl>
+        <div style="float: right">
+            <button nz-button style="margin-right: 8px;" (click)="close()">Cancel</button>
+            <button nz-button nzType="primary" (click)="submit()">Submit</button>
+        </div>
+    </ng-template>
+</nz-drawer>
