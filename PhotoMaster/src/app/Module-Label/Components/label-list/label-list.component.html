@@ -1,7 +1,7 @@
 <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
   <div nz-col [nzSpan]="1"></div>
   <div nz-col [nzSpan]="22">
-    <button nz-button nzType="primary" (click)="createLabel()"><i nz-icon nzType="plus" nzTheme="fill"></i>Create</button>
+    <button nz-button nzType="primary" (click)="createLabel()"><i nz-icon nzType="plus" nzTheme="outline"></i>Create</button>
     <nz-table #borderedTable nzBordered [nzShowSizeChanger]="true" [nzPageSizeOptions]='[1,2,3,10]' [nzPageSize]="10" 
     [nzShowTotal]="totalTemplate" [nzData]="labels">
       <thead>
@@ -30,4 +30,4 @@
   <ng-template #totalTemplate let-total> Total {{ total }} items</ng-template>
 </div>
 
-<app-label-detail></app-label-detail>
+<app-label-detail (isNeedRefresh) = "refresh()"></app-label-detail>

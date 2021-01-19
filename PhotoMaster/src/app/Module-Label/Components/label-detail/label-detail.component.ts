@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { Label } from '../../Models/Label';
 import { LabelService } from '../../Services/label.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -13,7 +13,9 @@ export class LabelDetailComponent implements OnInit {
   labelId : number;
   labelName : string;
   title : string;
-  visible : boolean;
+  isVisible : boolean;
+
+  @Output() isNeedRefresh = new EventEmitter<boolean>();
 
   constructor(private labelService : LabelService, private message: NzMessageService) { }
 
@@ -21,7 +23,7 @@ export class LabelDetailComponent implements OnInit {
   }
 
   close() : void{
-    this.visible = false;
+    this.isVisible = false;
   }
 
   submit() : void{
@@ -32,6 +34,7 @@ export class LabelDetailComponent implements OnInit {
                 this.labelName = data.Name;
                 this.message.create("success", "Update succeed!");
                 this.close();
+                this.isNeedRefresh.emit();
             },
             error: error => {
                 this.message.create("error", error.error);
@@ -46,6 +49,7 @@ export class LabelDetailComponent implements OnInit {
                 this.labelName = data.Name;
                 this.message.create("success", "Create succeed!");
                 this.close();
+                this.isNeedRefresh.emit();
             },
             error: error => {
                 this.message.create("error", error.error);

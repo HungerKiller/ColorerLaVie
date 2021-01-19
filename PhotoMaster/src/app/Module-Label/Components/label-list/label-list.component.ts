@@ -29,12 +29,12 @@ export class LabelListComponent implements OnInit {
     this.labelDetailComponent.labelId = selectedLabel.id;
     this.labelDetailComponent.labelName = selectedLabel.name;
     this.labelDetailComponent.title = "Update";
-    this.labelDetailComponent.visible = true;
+    this.labelDetailComponent.isVisible = true;
   }
 
   createLabel(): void{
     this.labelDetailComponent.title = "Create";
-    this.labelDetailComponent.visible = true;
+    this.labelDetailComponent.isVisible = true;
   }
 
   deleteLabel(labelId: number): void {
@@ -42,10 +42,15 @@ export class LabelListComponent implements OnInit {
     .subscribe({
       next: data => {
           this.messageService.create("success", "Delete succeed!");
+          this.getLabels();
       },
       error: error => {
           this.messageService.create("error", error.error);
       }
   });
+  }
+
+  refresh(){
+    this.getLabels();
   }
 }
