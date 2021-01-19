@@ -1,25 +1,28 @@
-<button mat-icon-button [matMenuTriggerFor]="menu">
-  <mat-icon>menu</mat-icon>
+<button class="menu" nz-button nzType="default" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+  <i nz-icon nzType="appstore" nzTheme="fill"></i>
 </button>
-<mat-menu #menu="matMenu">
-  <button mat-menu-item routerLink="/home" routerLinkActive="active">
-    <mat-icon>home</mat-icon>
-    <span>Home</span>
-  </button>
-  <button mat-menu-item routerLink="/global" routerLinkActive="active">
-    <mat-icon>remove_red_eye</mat-icon>
-    <span>Global View</span>
-  </button>
-  <button mat-menu-item routerLink="/detail" routerLinkActive="active">
-    <mat-icon>photo_library</mat-icon>
-    <span>Detail</span>
-  </button>
-  <button mat-menu-item routerLink="/photo/list" routerLinkActive="active">
-    <mat-icon>admin_panel_settings</mat-icon>
-    <span>Admin</span>
-  </button>
-  <button mat-menu-item routerLink="/contact" routerLinkActive="active">
-    <mat-icon>contact_mail</mat-icon>
-    <span>Contact</span>
-  </button>
-</mat-menu>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzMode="inline" nzTheme="dark">
+    <li nz-menu-item routerLink="/home" routerLinkActive="active">
+      <i nz-icon nzType="home" nzTheme="outline"></i>
+      <span>Home</span>
+    </li>
+    <li nz-menu-item routerLink="/global" routerLinkActive="active">
+      <i nz-icon nzType="global" nzTheme="outline"></i>
+      <span>Global View</span>
+    </li>
+    <li nz-menu-item routerLink="/detail" routerLinkActive="active">
+      <i nz-icon nzType="picture" nzTheme="outline"></i>
+      <span>Detail</span>
+    </li>
+    <li nz-menu-item routerLink="/photo/list" routerLinkActive="active">
+      <i nz-icon nzType="setting" nzTheme="outline"></i>
+      <span>Admin</span>
+    </li>
+    <li nz-menu-item routerLink="/contact" routerLinkActive="active">
+      <i nz-icon nzType="mail" nzTheme="outline"></i>
+      <span>Contact</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>
