@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PhotoMasterBackend.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace PhotoMasterBackend.Controllers
 
         // GET: api/Labels
         [HttpGet]
-        public async Task<ActionResult> GetsAsync()
+        public async Task<ActionResult<IEnumerable<DTOs.Label>>> GetsAsync()
         {
             try
             {
@@ -46,7 +47,7 @@ namespace PhotoMasterBackend.Controllers
 
         // GET api/Labels/5
         [HttpGet("{id}", Name = "GetLabel")]
-        public async Task<ActionResult> GetAsync(int id)
+        public async Task<ActionResult<DTOs.Label>> GetAsync(int id)
         {
             try
             {
@@ -69,10 +70,10 @@ namespace PhotoMasterBackend.Controllers
             try
             {
                 if (label == null)
-                    return BadRequest();
+                    return BadRequest($"Label object from body is null.");
 
                 // Validate label
-                var (statusCode, msg) = await ValidateLabel(label);
+                var (statusCode, msg) = await ValidateLabel(label, isCreation: true);
                 if (statusCode == StatusCodes.Status400BadRequest)
                 {
                     _logger.LogError(msg);
@@ -94,17 +95,18 @@ namespace PhotoMasterBackend.Controllers
 
         // PUT api/Labels/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutAsync(int id, [FromBody] DTOs.Label label)
+        public async Task<ActionResult<DTOs.Label>> PutAsync(int id, [FromBody] DTOs.Label label)
         {
             try
             {
                 if (id != label.Id)
-                {
-                    return BadRequest();
-                }
+                    return BadRequest($"Label id from url and body are not identical.");
+
+                if (await _labelRepository.GetLabelAsync(id) == null)
+                    return NotFound($"Label with id '{id}' not found.");
 
                 // Validate label
-                var (statusCode, msg) = await ValidateLabel(label);
+                var (statusCode, msg) = await ValidateLabel(label, isCreation: false);
                 if (statusCode == StatusCodes.Status400BadRequest)
                 {
                     _logger.LogError(msg);
@@ -112,9 +114,6 @@ namespace PhotoMasterBackend.Controllers
                 }
 
                 var labelUpdated = await _labelRepository.UpdateLabelAsync(_mapper.Map<Models.Label>(label));
-                if (labelUpdated == null)
-                    return NotFound();
-
                 var labelDTO = _mapper.Map<DTOs.Label>(labelUpdated);
                 return Ok(labelDTO);
             }
@@ -134,7 +133,7 @@ namespace PhotoMasterBackend.Controllers
             {
                 var label = await _labelRepository.GetLabelWithPhotosAsync(id);
                 if (label == null)
-                    return BadRequest($"Label with id '{id}' not found.");
+                    return NotFound($"Label with id '{id}' not found.");
                 // Find all photos who use this label
                 if (label.PhotoLabels != null && label.PhotoLabels.Count() != 0)
                     return BadRequest($"Can not remove this label, cause it is in use.");
@@ -149,26 +148,31 @@ namespace PhotoMasterBackend.Controllers
             }
         }
 
-        private async Task<(int, string)> ValidateLabel(DTOs.Label label)
+        private async Task<(int, string)> ValidateLabel(DTOs.Label label, bool isCreation)
         {
-            // Check label existence
-            var labels = await _labelRepository.GetLabelsAsync();
-            if (labels.Any(l => l.Name == label.Name))
+            // Label could be neither null nor whitespace
+            if (string.IsNullOrWhiteSpace(label.Name))
             {
-                return (StatusCodes.Status400BadRequest, $"Label '{label.Name}' already exists.");
-            }
-            // Label should not contain character whitespace
-            if (label.Name.Contains(' '))
-            {
-                return (StatusCodes.Status400BadRequest, $"Label should not contain character whitespace.");
-            }
-            // Label length should be greater than 5 characters
-            if (label.Name.Length <= 5)
-            {
-                return (StatusCodes.Status400BadRequest, $"Label's length should be greater than 5 characters.");
+                return (StatusCodes.Status400BadRequest, $"Label could be neither null nor whitespace.");
             }
 
-            return (200, null);
+            // Check label existence
+            var labels = await _labelRepository.GetLabelsAsync();
+            var labelRetrieved = labels.FirstOrDefault(l => l.Name == label.Name);
+
+            if (labelRetrieved == null) return (200, null);
+
+            if (isCreation)
+            {
+                return (StatusCodes.Status400BadRequest, $"Label '{label.Name}' already exists, cannot create.");
+            }
+            else
+            {
+                if (labelRetrieved.Id != label.Id)
+                    return (StatusCodes.Status400BadRequest, $"Label '{label.Name}' already exists, cannot update.");
+                else
+                    return (StatusCodes.Status400BadRequest, $"Label '{label.Name}' is identical as current, no need to update.");
+            }
         }
     }
 }
