@@ -29,7 +29,7 @@ namespace PhotoMasterBackend.Controllers
 
         // GET: api/Photos
         [HttpGet]
-        public async Task<ActionResult> GetsAsync()
+        public async Task<ActionResult<IEnumerable<DTOs.Photo>>> GetsAsync()
         {
             try
             {
@@ -47,7 +47,7 @@ namespace PhotoMasterBackend.Controllers
 
         // GET api/Photos/5
         [HttpGet("{id}", Name = "GetPhoto")]
-        public async Task<ActionResult> GetAsync(int id)
+        public async Task<ActionResult<DTOs.Photo>> GetAsync(int id)
         {
             try
             {
@@ -65,12 +65,12 @@ namespace PhotoMasterBackend.Controllers
 
         // GET api/Photos/5
         [HttpGet("ByLabels")]
-        public async Task<ActionResult> GetPhotosByLabelsAsync([FromQuery] int[] ids)
+        public async Task<ActionResult<IEnumerable<DTOs.Photo>>> GetPhotosByLabelsAsync([FromQuery] int[] ids)
         {
             try
             {
                 if (ids == null || ids.Count() == 0)
-                    return BadRequest();
+                    return BadRequest($"Label ids should not be null.");
                 // Get first label
                 var firstLabel = await _labelRepository.GetLabelWithPhotosAsync(ids[0]);
                 var photoIdsOfFirstLabel = firstLabel.PhotoLabels.Select(pl => pl.PhotoId);
@@ -102,7 +102,7 @@ namespace PhotoMasterBackend.Controllers
             try
             {
                 if (photo == null)
-                    return BadRequest();
+                    return BadRequest($"Photo object from body is null.");
                 // Create photo
                 var createdPhoto = await _photoRepository.AddPhotoAsync(_mapper.Map<Models.Photo>(photo));
                 // Get created photo
@@ -119,12 +119,16 @@ namespace PhotoMasterBackend.Controllers
 
         // PUT api/Photos/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutAsync(int id, [FromBody] DTOs.Photo photo)
+        public async Task<ActionResult<DTOs.Photo>> PutAsync(int id, [FromBody] DTOs.Photo photo)
         {
             try
             {
                 if (id != photo.Id)
-                    return BadRequest();
+                    return BadRequest($"Photo id from url and body are not identical.");
+
+                if (await _photoRepository.GetPhotoAsync(id) == null)
+                    return NotFound($"Photo with id '{id}' not found.");
+
                 // Check label's id
                 foreach (var l in photo.Labels)
                 {
@@ -132,10 +136,9 @@ namespace PhotoMasterBackend.Controllers
                     if (label == null)
                         return BadRequest($"Label with id '{l.Id}' not found!");
                 }
+
                 // Update photo
                 var photoUpdated = await _photoRepository.UpdatePhotoAsync(_mapper.Map<Models.Photo>(photo));
-                if (photoUpdated == null)
-                    return NotFound();
                 var photoDTO = _mapper.Map<DTOs.Photo>(photoUpdated);
                 return Ok(photoDTO);
             }
@@ -153,6 +156,9 @@ namespace PhotoMasterBackend.Controllers
         {
             try
             {
+                if (await _photoRepository.GetPhotoAsync(id) == null)
+                    return NotFound($"Photo with id '{id}' not found.");
+
                 await _photoRepository.DeletePhotoAsync(id);
                 return NoContent();
             }
