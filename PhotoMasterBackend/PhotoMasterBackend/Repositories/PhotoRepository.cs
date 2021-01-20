@@ -31,19 +31,24 @@ namespace PhotoMasterBackend.Repositories
             return result.Entity;
         }
 
-        public async Task<Photo> UpdatePhotoAsync(Photo photo)
+        public async Task<Photo> UpdatePhotoAsync(Photo photo, bool isUploadPhoto = true)
         {
             var result = await GetPhotoAsync(photo.Id);
 
             if (result != null)
             {
-                result.Date = photo.Date;
                 result.Path = photo.Path;
-                result.Location = photo.Location;
-                result.Description = photo.Description;
-                // todo 用这种方式更新ICollection，即使只想改一个值，也会删除DB中所有行，再重新添加
-                // 所以为了perfo，可能需要直接操作关系表
-                result.PhotoLabels = photo.PhotoLabels; 
+
+                if (isUploadPhoto)
+                {
+                    result.Date = photo.Date;
+                    result.Location = photo.Location;
+                    result.Description = photo.Description;
+                    // todo 用这种方式更新ICollection，即使只想改一个值，也会删除DB中所有行，再重新添加
+                    // 所以为了perfo，可能需要直接操作关系表
+                    result.PhotoLabels = photo.PhotoLabels;
+                }
+                
                 await _context.SaveChangesAsync();
                 return result;
             }

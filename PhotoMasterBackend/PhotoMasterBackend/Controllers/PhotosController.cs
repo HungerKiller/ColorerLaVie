@@ -5,7 +5,9 @@ using Microsoft.Extensions.Logging;
 using PhotoMasterBackend.Repositories;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace PhotoMasterBackend.Controllers
@@ -63,38 +65,6 @@ namespace PhotoMasterBackend.Controllers
             }
         }
 
-        // GET api/Photos/5
-        [HttpGet("ByLabels")]
-        public async Task<ActionResult<IEnumerable<DTOs.Photo>>> GetPhotosByLabelsAsync([FromQuery] int[] ids)
-        {
-            try
-            {
-                if (ids == null || ids.Count() == 0)
-                    return BadRequest($"Label ids should not be null.");
-                // Get first label
-                var firstLabel = await _labelRepository.GetLabelWithPhotosAsync(ids[0]);
-                var photoIdsOfFirstLabel = firstLabel.PhotoLabels.Select(pl => pl.PhotoId);
-                // Find photos
-                var photos = new List<Models.Photo>();
-                foreach (var pid in photoIdsOfFirstLabel)
-                {
-                    var photo = await _photoRepository.GetPhotoAsync(pid);
-                    var labelIds = photo.PhotoLabels.Select(pl => pl.LabelId);
-                    if (labelIds.Intersect(ids).Count() == ids.Count())
-                        photos.Add(photo);
-                }
-
-                var photosDTO = photos.Select(photo => _mapper.Map<DTOs.Photo>(photo));
-                return Ok(photosDTO);
-            }
-            catch (Exception)
-            {
-                var msg = "Error occurred while retrieving data from database.";
-                _logger.LogError(msg);
-                return StatusCode(StatusCodes.Status500InternalServerError, msg);
-            }
-        }
-
         // POST api/Photos
         [HttpPost]
         public async Task<ActionResult<DTOs.Photo>> PostAsync([FromBody] DTOs.Photo photo)
@@ -138,7 +108,7 @@ namespace PhotoMasterBackend.Controllers
                 }
 
                 // Update photo
-                var photoUpdated = await _photoRepository.UpdatePhotoAsync(_mapper.Map<Models.Photo>(photo));
+                var photoUpdated = await _photoRepository.UpdatePhotoAsync(_mapper.Map<Models.Photo>(photo), true);
                 var photoDTO = _mapper.Map<DTOs.Photo>(photoUpdated);
                 return Ok(photoDTO);
             }
@@ -165,6 +135,82 @@ namespace PhotoMasterBackend.Controllers
             catch (Exception)
             {
                 var msg = "Error occurred while deleting data of database.";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
+        // GET api/Photos/5
+        [HttpGet("ByLabels")]
+        public async Task<ActionResult<IEnumerable<DTOs.Photo>>> GetPhotosByLabelsAsync([FromQuery] int[] ids)
+        {
+            try
+            {
+                if (ids == null || ids.Count() == 0)
+                    return BadRequest($"Label ids should not be null.");
+                // Get first label
+                var firstLabel = await _labelRepository.GetLabelWithPhotosAsync(ids[0]);
+                var photoIdsOfFirstLabel = firstLabel.PhotoLabels.Select(pl => pl.PhotoId);
+                // Find photos
+                var photos = new List<Models.Photo>();
+                foreach (var pid in photoIdsOfFirstLabel)
+                {
+                    var photo = await _photoRepository.GetPhotoAsync(pid);
+                    var labelIds = photo.PhotoLabels.Select(pl => pl.LabelId);
+                    if (labelIds.Intersect(ids).Count() == ids.Count())
+                        photos.Add(photo);
+                }
+
+                var photosDTO = photos.Select(photo => _mapper.Map<DTOs.Photo>(photo));
+                return Ok(photosDTO);
+            }
+            catch (Exception)
+            {
+                var msg = "Error occurred while retrieving data from database.";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
+        // POST api/Photos/Upload/5
+        [HttpPost("Upload/{id}"), DisableRequestSizeLimit]
+        public async Task<ActionResult<DTOs.Photo>> UploadAsync(int id)
+        {
+            try
+            {
+                var photo = await _photoRepository.GetPhotoAsync(id);
+                if (photo == null)
+                    return NotFound($"Photo with id '{id}' not found.");
+
+                var formCollection = await Request.ReadFormAsync();
+                var file = formCollection.Files.First();
+
+                var folderName = Path.Combine("Resources", "UploadedImages");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                if (file.Length > 0)
+                {
+                    if (System.IO.File.Exists(photo.Path))
+                        System.IO.File.Delete(photo.Path);
+                    var fileName = $"{id}_{ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')}";
+                    using (var stream = new FileStream(Path.Combine(pathToSave, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    photo.Path = Path.Combine(folderName, fileName);
+                    var photoUpdated = await _photoRepository.UpdatePhotoAsync(photo, false);
+                    var photoDTO = _mapper.Map<DTOs.Photo>(photoUpdated);
+                    return Ok(photoDTO);
+                }
+                else
+                {
+                    return BadRequest($"File length is less than 0.");
+                }
+            }
+            catch (Exception)
+            {
+                var msg = "Error occurred while uploading image to server.";
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }

@@ -3,6 +3,7 @@
 project.lock.json
 .DS_Store
 *.pyc
+UploadedImages/
 
 # Visual Studio Code
 .vscode

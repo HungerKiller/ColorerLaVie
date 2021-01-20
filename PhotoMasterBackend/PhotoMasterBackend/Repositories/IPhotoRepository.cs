@@ -9,7 +9,7 @@ namespace PhotoMasterBackend.Repositories
         Task<IEnumerable<Photo>> GetPhotosAsync();
         Task<Photo> GetPhotoAsync(int photoId);
         Task<Photo> AddPhotoAsync(Photo photo);
-        Task<Photo> UpdatePhotoAsync(Photo photo);
+        Task<Photo> UpdatePhotoAsync(Photo photo, bool isUploadPhoto);
         Task DeletePhotoAsync(int photoId);
     }
 }
