@@ -1,0 +1,15 @@
+<div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+    <div nz-col [nzSpan]="1"></div>
+    <div nz-col [nzSpan]="22">
+        <nz-tabset nzLinkRouter>
+            <nz-tab>
+                <a *nzTabLink nz-tab-link [routerLink]="['/admin/photos']"><i nz-icon nzType="picture" nzTheme="outline"></i>Photos</a>
+            </nz-tab>
+            <nz-tab>
+                <a *nzTabLink nz-tab-link [routerLink]="['/admin/labels']"><i nz-icon nzType="flag" nzTheme="outline"></i>Labels</a>
+            </nz-tab>
+        </nz-tabset>
+        <router-outlet></router-outlet>
+    </div>
+    <div nz-col [nzSpan]="1"></div>
+</div>

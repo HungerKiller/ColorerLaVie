@@ -11,10 +11,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 import { MenuComponent } from './Components/menu/menu.component';
 import { ContactComponent } from './Components/contact/contact.component';
-
+import { AdminComponent } from './Components/admin/admin.component';
 import { LabelModule } from './Module-Label/label.module';
 import { PhotoModule } from './Module-Photo/photo.module';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -28,7 +30,8 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     MenuComponent,
-    ContactComponent
+    ContactComponent,
+    AdminComponent
   ],
   imports: [
     LabelModule,
@@ -43,7 +46,9 @@ registerLocaleData(en);
     NzIconModule,
     NzButtonModule,
     NzToolTipModule,
-    NzDropDownModule
+    NzDropDownModule,
+    NzTabsModule,
+    NzGridModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
