@@ -14,13 +14,14 @@ export class ApiRoute {
     public static readonly PHOTO = {
         getPhotos: () => `${ApiRoute.BaseUrl}/photos`,
         getPhoto: (photoId: number) => `${ApiRoute.BaseUrl}/photos/${photoId}`,
+        postPhoto: () => `${ApiRoute.BaseUrl}/photos`,
+        putPhoto: (photoId: number) => `${ApiRoute.BaseUrl}/photos/${photoId}`,
+        deletePhoto: (photoId: number) => `${ApiRoute.BaseUrl}/photos/${photoId}`,
         getPhotosByLabels: (labelIds: number[]) => {
             let params = '';
             labelIds.map(id => params += `&ids=${id}`);
             return `${ApiRoute.BaseUrl}/photos/bylabels?${params}`;
         },
-        postPhoto: () => `${ApiRoute.BaseUrl}/photos`,
-        putPhoto: (photoId: number) => `${ApiRoute.BaseUrl}/photos/${photoId}`,
-        deletePhoto: (photoId: number) => `${ApiRoute.BaseUrl}/photos/${photoId}`
+        uploadPhoto: (photoId: number) => `${ApiRoute.BaseUrl}/photos/upload/${photoId}`,
     }
 }

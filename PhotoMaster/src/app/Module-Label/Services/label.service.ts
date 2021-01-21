@@ -19,15 +19,15 @@ export class LabelService {
     return this.http.get<Label>(ApiRoute.LABEL.getLabel(labelId));
   }
 
-  postLabel(label : Label): Observable<Label> {
-    return this.http.post<Label>(ApiRoute.LABEL.postLabel(), label); // todo add body
+  postLabel(label: Label): Observable<Label> {
+    return this.http.post<Label>(ApiRoute.LABEL.postLabel(), label);
   }
 
-  putLabel(labelId: number, label : Label): Observable<Label> {
-    return this.http.put<Label>(ApiRoute.LABEL.putLabel(labelId), label); // todo add body
+  putLabel(labelId: number, label: Label): Observable<Label> {
+    return this.http.put<Label>(ApiRoute.LABEL.putLabel(labelId), label);
   }
 
   deleteLabel(labelId: number): Observable<Label> {
-    return this.http.delete<Label>(ApiRoute.LABEL.deleteLabel(labelId)); // todo return value
+    return this.http.delete<Label>(ApiRoute.LABEL.deleteLabel(labelId));
   }
 }
