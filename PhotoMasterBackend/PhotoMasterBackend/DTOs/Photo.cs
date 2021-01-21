@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PhotoMasterBackend.DTOs
 {
@@ -7,7 +6,7 @@ namespace PhotoMasterBackend.DTOs
     {
         public int Id { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         public string Path { get; set; }
 
