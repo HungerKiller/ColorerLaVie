@@ -14,15 +14,14 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
-import { DetailViewComponent } from '../Module-Photo/Components/detail-view/detail-view.component';
-import { GlobalViewComponent } from '../Module-Photo/Components/global-view/global-view.component';
-import { HomeViewComponent } from '../Module-Photo/Components/home-view/home-view.component';
-import { PhotoComponent } from './photo.component';
-import { PhotoListComponent } from './Components/photo-list/photo-list.component';
-import { PhotoDetailComponent } from './Components/photo-detail/photo-detail.component';
+import { DetailViewComponent } from './detail-view/detail-view.component';
+import { GlobalViewComponent } from './global-view/global-view.component';
+import { HomeViewComponent } from './home-view/home-view.component';
+import { PhotoListComponent } from './photo-list/photo-list.component';
+import { PhotoDetailComponent } from './photo-detail/photo-detail.component';
 
 @NgModule({
-  declarations: [DetailViewComponent, GlobalViewComponent, HomeViewComponent, PhotoComponent, PhotoListComponent, PhotoDetailComponent],
+  declarations: [DetailViewComponent, GlobalViewComponent, HomeViewComponent, PhotoListComponent, PhotoDetailComponent],
   imports: [
     CommonModule,
     RouterModule,

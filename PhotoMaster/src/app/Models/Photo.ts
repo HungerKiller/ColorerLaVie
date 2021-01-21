@@ -1,3 +1,5 @@
+import { Label } from './Label';
+
 export class Photo {
     Id: number;
     Date: Date;
@@ -5,9 +7,4 @@ export class Photo {
     Location: string;
     Description: string;
     Labels: Label[];
-}
-
-export class Label {
-    Id: number;
-    Name: string;
 }

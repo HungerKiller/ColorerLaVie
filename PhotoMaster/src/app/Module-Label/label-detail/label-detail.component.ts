@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
-import { Label } from '../../Models/Label';
 import { LabelService } from '../../Services/label.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 

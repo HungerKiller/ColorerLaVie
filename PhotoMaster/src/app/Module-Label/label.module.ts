@@ -15,12 +15,11 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
-import { LabelComponent } from './label.component';
-import { LabelDetailComponent } from './Components/label-detail/label-detail.component';
-import { LabelListComponent } from './Components/label-list/label-list.component';
+import { LabelDetailComponent } from './label-detail/label-detail.component';
+import { LabelListComponent } from './label-list/label-list.component';
 
 @NgModule({
-  declarations: [LabelComponent, LabelDetailComponent, LabelListComponent],
+  declarations: [LabelDetailComponent, LabelListComponent],
   imports: [
     CommonModule,
     RouterModule,
