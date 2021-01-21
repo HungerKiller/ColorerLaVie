@@ -1,18 +1,18 @@
 import { Label } from './Label';
 
 export class Photo {
-    Id: number;
-    Date: Date;
-    Path: string;
-    Location: string;
-    Description: string;
-    Labels: Label[];
+    id: number;
+    date: string;
+    path: string;
+    location: string;
+    description: string;
+    labels: Label[];
 
-    constructor(id: number, date: Date, location: string, description: string, labels: Label[]){
-        this.Id = id;
-        this.Date = date;
-        this.Location = location;
-        this.Description = description;
-        this.Labels = labels;
+    constructor(id: number, date: string, location: string, description: string, labels: Label[]){
+        this.id = id;
+        this.date = date;
+        this.location = location;
+        this.description = description;
+        this.labels = labels;
     }
 }

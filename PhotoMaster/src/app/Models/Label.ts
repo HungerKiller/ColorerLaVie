@@ -1,4 +1,4 @@
-export class Label{
-    Id: number;
-    Name: string;
+export class Label {
+    id: number;
+    name: string;
 }

@@ -12,7 +12,7 @@
         <div nz-row [nzGutter]="8">
             <div nz-col nzSpan="24">
                 <nz-input-group nzAddOnBefore = "Name" [nzSuffix]="inputClearTpl">
-                    <input type="text" nz-input [(ngModel)]="labelName" placeholder="input label's name" />
+                    <input type="text" nz-input [(ngModel)]="labelName" placeholder="Input name" />
                 </nz-input-group>
                 <ng-template #inputClearTpl>
                     <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="labelName"

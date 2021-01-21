@@ -15,7 +15,7 @@
         <br />
         <div nz-col nzSpan="24">
             <nz-input-group nzAddOnBefore="Location" [nzSuffix]="inputClearTpl">
-                <input type="text" nz-input [(ngModel)]="location" placeholder="input adresse" />
+                <input type="text" nz-input [(ngModel)]="location" placeholder="Input location" />
             </nz-input-group>
             <ng-template #inputClearTpl>
                 <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="location"
@@ -24,12 +24,16 @@
         </div>
         <br />
         <div nz-col nzSpan="24">
-            <textarea nz-input [(ngModel)]="description" placeholder="Autosize height based on content lines" nzAutosize></textarea>
+            <nz-select [(ngModel)]="labelIds" [nzSize]="default" nzMode="tags" nzPlaceHolder="Please select">
+                <nz-option *ngFor="let label of listOfAllLabel" [nzLabel]="label.name" [nzValue]="label.id">
+                </nz-option>
+            </nz-select>
         </div>
         <br />
-        {{date}}
-        {{location}}
-        {{description}}
+        <div nz-col nzSpan="24">
+            <textarea nz-input [(ngModel)]="description" placeholder="Input description" nzAutosize></textarea>
+        </div>
+        <br />
     </ng-container>
 
     <ng-template #footerTpl>

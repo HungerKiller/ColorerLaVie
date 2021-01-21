@@ -27,10 +27,10 @@ export class LabelDetailComponent implements OnInit {
 
   submit(): void {
     if (this.title == "Update") {
-      this.labelService.putLabel(this.labelId, { Id: this.labelId, Name: this.labelName })
+      this.labelService.putLabel(this.labelId, { id: this.labelId, name: this.labelName })
         .subscribe({
           next: data => {
-            this.labelName = data.Name;
+            this.labelName = data.name;
             this.message.create("success", "Update succeed!");
             this.close();
             this.isNeedRefresh.emit();
@@ -41,10 +41,10 @@ export class LabelDetailComponent implements OnInit {
         });
     }
     else if (this.title == "Create") {
-      this.labelService.postLabel({ Id: 0, Name: this.labelName })
+      this.labelService.postLabel({ id: 0, name: this.labelName })
         .subscribe({
           next: data => {
-            this.labelName = data.Name;
+            this.labelName = data.name;
             this.message.create("success", "Create succeed!");
             this.close();
             this.isNeedRefresh.emit();

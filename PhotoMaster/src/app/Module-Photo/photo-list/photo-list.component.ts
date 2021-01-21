@@ -12,7 +12,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 
 export class PhotoListComponent implements OnInit {
 
-  @ViewChild(PhotoDetailComponent) photoDetailComponent : PhotoDetailComponent;
+  @ViewChild(PhotoDetailComponent) photoDetailComponent: PhotoDetailComponent;
 
   photos: Photo[];
 
@@ -26,16 +26,22 @@ export class PhotoListComponent implements OnInit {
     this.photoService.getPhotos().subscribe(photos => this.photos = photos);
   }
 
-  editPhoto(selectedPhoto): void{
+  editPhoto(selectedPhoto): void {
     this.photoDetailComponent.photoId = selectedPhoto.id;
     this.photoDetailComponent.date = new Date(selectedPhoto.date);
     this.photoDetailComponent.location = selectedPhoto.location;
     this.photoDetailComponent.description = selectedPhoto.description;
+    let ids = <number[]>[];
+    selectedPhoto.labels.forEach(function (value) {
+      ids.push(value.id);
+    });
+    this.photoDetailComponent.labelIds = ids;
+
     this.photoDetailComponent.title = "Update";
     this.photoDetailComponent.isVisible = true;
   }
 
-  createPhoto(): void{
+  createPhoto(): void {
     this.photoDetailComponent.photoId = 0;
     this.photoDetailComponent.title = "Create";
     this.photoDetailComponent.isVisible = true;
@@ -43,18 +49,18 @@ export class PhotoListComponent implements OnInit {
 
   deletePhoto(photoId: number): void {
     this.photoService.deletePhoto(photoId)
-    .subscribe({
-      next: data => {
+      .subscribe({
+        next: data => {
           this.messageService.create("success", "Delete succeed!");
           this.getPhotos();
-      },
-      error: error => {
+        },
+        error: error => {
           this.messageService.create("error", error.error);
-      }
-  });
+        }
+      });
   }
 
-  refresh(){
+  refresh() {
     this.getPhotos();
   }
 }
