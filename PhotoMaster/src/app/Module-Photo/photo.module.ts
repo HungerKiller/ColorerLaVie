@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -13,6 +14,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import { DetailViewComponent } from './detail-view/detail-view.component';
 import { GlobalViewComponent } from './global-view/global-view.component';
@@ -25,6 +27,7 @@ import { PhotoDetailComponent } from './photo-detail/photo-detail.component';
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     NzTableModule,
     NzButtonModule,
     NzDividerModule,
@@ -35,7 +38,8 @@ import { PhotoDetailComponent } from './photo-detail/photo-detail.component';
     NzInputModule,
     NzMessageModule,
     NzPopconfirmModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzDatePickerModule
   ]
 })
 export class PhotoModule { }

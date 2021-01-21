@@ -27,13 +27,16 @@ export class PhotoListComponent implements OnInit {
   }
 
   editPhoto(selectedPhoto): void{
-    // this.photoDetailComponent.labelId = selectedPhoto.id;
-    // this.photoDetailComponent.labelName = selectedPhoto.name;
+    this.photoDetailComponent.photoId = selectedPhoto.id;
+    this.photoDetailComponent.date = new Date(selectedPhoto.date);
+    this.photoDetailComponent.location = selectedPhoto.location;
+    this.photoDetailComponent.description = selectedPhoto.description;
     this.photoDetailComponent.title = "Update";
     this.photoDetailComponent.isVisible = true;
   }
 
   createPhoto(): void{
+    this.photoDetailComponent.photoId = 0;
     this.photoDetailComponent.title = "Create";
     this.photoDetailComponent.isVisible = true;
   }

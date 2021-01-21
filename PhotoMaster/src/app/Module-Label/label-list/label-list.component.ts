@@ -33,6 +33,7 @@ export class LabelListComponent implements OnInit {
   }
 
   createLabel(): void{
+    this.labelDetailComponent.labelId = 0;
     this.labelDetailComponent.title = "Create";
     this.labelDetailComponent.isVisible = true;
   }

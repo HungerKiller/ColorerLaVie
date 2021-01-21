@@ -9,50 +9,49 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class LabelDetailComponent implements OnInit {
 
-  labelId : number;
-  labelName : string;
-  title : string;
-  isVisible : boolean;
+  labelId: number;
+  labelName: string;
+  title: string;
+  isVisible: boolean;
 
   @Output() isNeedRefresh = new EventEmitter<boolean>();
 
-  constructor(private labelService : LabelService, private message: NzMessageService) { }
+  constructor(private labelService: LabelService, private message: NzMessageService) { }
 
   ngOnInit(): void {
   }
 
-  close() : void{
+  close(): void {
     this.isVisible = false;
   }
 
-  submit() : void{
-    if(this.title == "Update"){
-      this.labelService.putLabel(this.labelId, { Id : this.labelId, Name : this.labelName})
-      .subscribe({
-            next: data => {
-                this.labelName = data.Name;
-                this.message.create("success", "Update succeed!");
-                this.close();
-                this.isNeedRefresh.emit();
-            },
-            error: error => {
-                this.message.create("error", error.error);
-            }
+  submit(): void {
+    if (this.title == "Update") {
+      this.labelService.putLabel(this.labelId, { Id: this.labelId, Name: this.labelName })
+        .subscribe({
+          next: data => {
+            this.labelName = data.Name;
+            this.message.create("success", "Update succeed!");
+            this.close();
+            this.isNeedRefresh.emit();
+          },
+          error: error => {
+            this.message.create("error", error.error);
+          }
         });
     }
-    else if(this.title == "Create")
-    {
-      this.labelService.postLabel({ Id : 0, Name : this.labelName})
-      .subscribe({
-            next: data => {
-                this.labelName = data.Name;
-                this.message.create("success", "Create succeed!");
-                this.close();
-                this.isNeedRefresh.emit();
-            },
-            error: error => {
-                this.message.create("error", error.error);
-            }
+    else if (this.title == "Create") {
+      this.labelService.postLabel({ Id: 0, Name: this.labelName })
+        .subscribe({
+          next: data => {
+            this.labelName = data.Name;
+            this.message.create("success", "Create succeed!");
+            this.close();
+            this.isNeedRefresh.emit();
+          },
+          error: error => {
+            this.message.create("error", error.error);
+          }
         });
     }
   }

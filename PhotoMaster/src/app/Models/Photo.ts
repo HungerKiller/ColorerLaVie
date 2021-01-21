@@ -7,4 +7,12 @@ export class Photo {
     Location: string;
     Description: string;
     Labels: Label[];
+
+    constructor(id: number, date: Date, location: string, description: string, labels: Label[]){
+        this.Id = id;
+        this.Date = date;
+        this.Location = location;
+        this.Description = description;
+        this.Labels = labels;
+    }
 }

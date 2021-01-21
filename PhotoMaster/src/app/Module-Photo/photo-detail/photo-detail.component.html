@@ -1,1 +1,41 @@
 <p>photo-detail works!</p>
+
+<nz-drawer [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="false" [nzWidth]="256" [nzVisible]="isVisible"
+    [nzTitle]="title" [nzFooter]="footerTpl" (nzOnClose)="close()">
+    <ng-container *nzDrawerContent>
+        <div nz-col nzSpan="24">
+            <nz-input-group nzAddOnBefore="Id">
+                <input type="text" nz-input [(ngModel)]="photoId" disabled="true" />
+            </nz-input-group>
+        </div>
+        <br />
+        <div nz-col nzSpan="24">
+            <nz-date-picker [nzDisabledDate]="disabledDate" [(ngModel)]="date"></nz-date-picker>
+        </div>
+        <br />
+        <div nz-col nzSpan="24">
+            <nz-input-group nzAddOnBefore="Location" [nzSuffix]="inputClearTpl">
+                <input type="text" nz-input [(ngModel)]="location" placeholder="input adresse" />
+            </nz-input-group>
+            <ng-template #inputClearTpl>
+                <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="location"
+                    (click)="location = null"></i>
+            </ng-template>
+        </div>
+        <br />
+        <div nz-col nzSpan="24">
+            <textarea nz-input [(ngModel)]="description" placeholder="Autosize height based on content lines" nzAutosize></textarea>
+        </div>
+        <br />
+        {{date}}
+        {{location}}
+        {{description}}
+    </ng-container>
+
+    <ng-template #footerTpl>
+        <div style="float: right">
+            <button nz-button style="margin-right: 8px;" (click)="close()">Cancel</button>
+            <button nz-button nzType="primary" (click)="submit()">Submit</button>
+        </div>
+    </ng-template>
+</nz-drawer>
