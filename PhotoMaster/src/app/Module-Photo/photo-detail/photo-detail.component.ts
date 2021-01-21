@@ -13,16 +13,17 @@ import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 })
 export class PhotoDetailComponent implements OnInit {
 
+  // Memeber of photo
   photoId: number;
   date: Date;
   path: string;
   location: string;
   description: string;
   labelIds: number[];
-
+  // Label list
   listOfSelectedLabel: Label[];
   listOfAllLabel: Label[];
-
+  // View variable
   title: string;
   isVisible: boolean;
 
@@ -45,15 +46,15 @@ export class PhotoDetailComponent implements OnInit {
   }
 
   submit(): void {
+    // Set selected labels
     this.listOfSelectedLabel = [] as Label[];
     for (let lid of this.labelIds) {
       let label = this.listOfAllLabel.find(l => l.id == lid)
       this.listOfSelectedLabel.push(label);
     }
-    console.log(this.listOfSelectedLabel);
 
     if (this.title == "Update") {
-      this.photoService.putPhoto(this.photoId, new Photo(this.photoId, this.date.toISOString(), this.location, this.description, this.listOfSelectedLabel)) //todo labels
+      this.photoService.putPhoto(this.photoId, new Photo(this.photoId, this.date.toISOString(), this.location, this.description, this.listOfSelectedLabel))
         .subscribe({
           next: data => {
             this.message.create("success", "Update succeed!");
@@ -64,12 +65,12 @@ export class PhotoDetailComponent implements OnInit {
             this.message.create("error", error.error);
           }
         });
-      // todo upload photo (path)
     }
     else if (this.title == "Create") {
-      this.photoService.postPhoto(new Photo(0, this.date.toISOString(), this.location, this.description, this.listOfSelectedLabel)) //todo labels
+      this.photoService.postPhoto(new Photo(0, this.date.toISOString(), this.location, this.description, this.listOfSelectedLabel))
         .subscribe({
           next: data => {
+            this.photoId = data.id;
             this.message.create("success", "Create succeed!");
             this.close();
             this.isNeedRefresh.emit();
@@ -78,7 +79,6 @@ export class PhotoDetailComponent implements OnInit {
             this.message.create("error", error.error);
           }
         });
-      // todo upload photo (path)
     }
   }
 
