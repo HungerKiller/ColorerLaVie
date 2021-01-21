@@ -100,11 +100,14 @@ namespace PhotoMasterBackend.Controllers
                     return NotFound($"Photo with id '{id}' not found.");
 
                 // Check label's id
-                foreach (var l in photo.Labels)
+                if (photo.Labels != null)
                 {
-                    var label = await _labelRepository.GetLabelAsync(l.Id);
-                    if (label == null)
-                        return BadRequest($"Label with id '{l.Id}' not found!");
+                    foreach (var l in photo.Labels)
+                    {
+                        var label = await _labelRepository.GetLabelAsync(l.Id);
+                        if (label == null)
+                            return BadRequest($"Label with id '{l.Id}' not found!");
+                    }
                 }
 
                 // Update photo
