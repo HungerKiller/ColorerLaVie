@@ -1,1 +1,53 @@
-<p>photo-list works!</p>
+<div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+    <div nz-col [nzSpan]="24">
+      <button class="bCreate" nz-button nzType="primary" (click)="createPhoto()" nzTooltipTitle="Create" nzTooltipPlacement="topLeft"
+        nz-tooltip>
+        <i nz-icon nzType="plus-square" nzTheme="fill"></i>
+      </button>
+      <br/><br/>
+      <nz-table #borderedTable nzBordered [nzShowSizeChanger]="true" [nzPageSizeOptions]='[10,20,50,100]' [nzPageSize]="10"
+        [nzShowTotal]="totalTemplate" [nzData]="photos">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Path</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Labels</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of borderedTable.data">
+            <td>{{ data.id }}</td>
+            <td>{{ data.date }}</td>
+            <td>{{ data.path }}</td>
+            <td>{{ data.location }}</td>
+            <td>{{ data.description }}</td>
+            <td>
+                <div *ngFor="let label of data.labels">
+                    <span>{{label.name}}</span>
+                </div>
+            </td>
+            <td>
+              <button nz-button nzType="primary" (click)="editPhoto(data)" nzTooltipTitle="Edit"
+                nzTooltipPlacement="topLeft" nz-tooltip>
+                <i nz-icon nzType="edit" nzTheme="fill"></i>
+              </button>
+              <nz-divider nzType="vertical"></nz-divider>
+  
+              <button nz-button nzType="primary" nzDanger nzTooltipTitle="Delete" nzTooltipPlacement="topLeft" nz-tooltip
+                nz-popconfirm nzPopconfirmTitle="Are you sure to delete?" nzOkText="ok" nzCancelText="cancel"
+                (nzOnConfirm)="deletePhoto(data.id)">
+                <i nz-icon nzType="delete" nzTheme="fill"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <ng-template #totalTemplate let-total> Total {{ total }} items</ng-template>
+  </div>
+  
+  <!-- <app-photo-detail (isNeedRefresh)="refresh()"></app-photo-detail> -->

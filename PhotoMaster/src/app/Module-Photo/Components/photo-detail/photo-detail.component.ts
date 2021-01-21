@@ -7,6 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PhotoDetailComponent implements OnInit {
 
+  photoId: number;
+    date: Date;
+    path: string;
+    location: string;
+    description: string;
+    // Labels: Label[];
+
+    title : string;
+  isVisible : boolean;
+
   constructor() { }
 
   ngOnInit(): void {
