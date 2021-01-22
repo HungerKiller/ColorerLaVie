@@ -13,6 +13,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
 
 import { MenuComponent } from './Components/menu/menu.component';
 import { ContactComponent } from './Components/contact/contact.component';
@@ -48,7 +49,8 @@ registerLocaleData(en);
     NzToolTipModule,
     NzDropDownModule,
     NzTabsModule,
-    NzGridModule
+    NzGridModule,
+    NzAffixModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
