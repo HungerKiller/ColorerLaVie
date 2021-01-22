@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://localhost:44344/api' // todo change as prod api url
+  host: 'https://localhost:44344',  // todo change as prod api url
+  apiPrefix: 'api'
 };

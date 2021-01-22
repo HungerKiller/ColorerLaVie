@@ -21,8 +21,9 @@ export class PhotoListComponent implements OnInit {
   url: string;
   photos: Photo[];
   displayPhotos: Photo[];
+  host = ApiRoute.HOST;
 
-  // Table function
+  // Varibale of table function
   searchLocationValue: string;
   sortDate = ((a: Photo, b: Photo) => a.date.localeCompare(b.date));
 
@@ -74,6 +75,7 @@ export class PhotoListComponent implements OnInit {
     this.photoService.getPhotos().subscribe(photos => { this.photos = photos; this.displayPhotos = photos; });
   }
 
+  // Upload photo
   setUrl(photoId: number): void {
     this.url = ApiRoute.PHOTO.uploadPhoto(photoId);
   }
@@ -89,7 +91,7 @@ export class PhotoListComponent implements OnInit {
     }
   }
 
-  // Filter
+  // Table filter
   reset(): void {
     this.searchLocationValue = '';
     this.searchLocation();
@@ -97,5 +99,15 @@ export class PhotoListComponent implements OnInit {
 
   searchLocation(): void {
     this.displayPhotos = this.photos.filter((item: Photo) => item.location.indexOf(this.searchLocationValue) !== -1);
+  }
+
+  // Table expand
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
   }
 }

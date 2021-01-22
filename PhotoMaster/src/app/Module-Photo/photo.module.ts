@@ -18,6 +18,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 import { DetailViewComponent } from './detail-view/detail-view.component';
 import { GlobalViewComponent } from './global-view/global-view.component';
@@ -45,7 +47,9 @@ import { PhotoDetailComponent } from './photo-detail/photo-detail.component';
     NzDatePickerModule,
     NzSelectModule,
     NzUploadModule,
-    NzDropDownModule
+    NzDropDownModule,
+    NzImageModule,
+    NzCollapseModule
   ]
 })
 export class PhotoModule { }
