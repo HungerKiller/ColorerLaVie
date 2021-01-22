@@ -22,6 +22,10 @@ export class PhotoListComponent implements OnInit {
   photos: Photo[];
   displayPhotos: Photo[];
 
+  // Table function
+  searchLocationValue: string;
+  sortDate = ((a: Photo, b: Photo) => a.date.localeCompare(b.date));
+
   constructor(private photoService: PhotoService, private messageService: NzMessageService) { }
 
   ngOnInit(): void {
@@ -86,8 +90,6 @@ export class PhotoListComponent implements OnInit {
   }
 
   // Filter
-  searchLocationValue: string;
-
   reset(): void {
     this.searchLocationValue = '';
     this.searchLocation();
