@@ -22,6 +22,6 @@ export class ApiRoute {
             labelIds.map(id => params += `&ids=${id}`);
             return `${ApiRoute.BaseUrl}/photos/bylabels?${params}`;
         },
-        uploadPhoto: (photoId: number) => `${ApiRoute.BaseUrl}/photos/upload/${photoId}`,
+        uploadPhoto: (photoId: number) => `${ApiRoute.BaseUrl}/photos/upload/${photoId}`
     }
 }
