@@ -6,13 +6,18 @@
     </button>
     <br /><br />
     <nz-table #borderedTable nzBordered [nzShowSizeChanger]="true" [nzPageSizeOptions]='[10,20,50,100]'
-      [nzPageSize]="10" [nzShowTotal]="totalTemplate" [nzData]="photos">
+      [nzPageSize]="10" [nzShowTotal]="totalTemplate" [nzData]="displayPhotos">
       <thead>
         <tr>
           <th>Id</th>
           <th>Date</th>
           <th>Path</th>
-          <th>Location</th>
+          <th nzCustomFilter>
+            Location
+            <nz-filter-trigger  [nzDropdownMenu]="menu">
+              <i nz-icon nzType="search"></i>
+            </nz-filter-trigger>
+          </th>
           <th>Description</th>
           <th>Labels</th>
           <th>Action</th>
@@ -57,3 +62,15 @@
 </div>
 
 <app-photo-detail (isNeedRefresh)="refresh()"></app-photo-detail>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search location" [(ngModel)]="searchLocationValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="searchLocation()" class="search-button">
+        Search
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>

@@ -17,6 +17,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 import { DetailViewComponent } from './detail-view/detail-view.component';
 import { GlobalViewComponent } from './global-view/global-view.component';
@@ -43,7 +44,8 @@ import { PhotoDetailComponent } from './photo-detail/photo-detail.component';
     NzToolTipModule,
     NzDatePickerModule,
     NzSelectModule,
-    NzUploadModule
+    NzUploadModule,
+    NzDropDownModule
   ]
 })
 export class PhotoModule { }

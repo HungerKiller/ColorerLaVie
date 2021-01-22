@@ -20,15 +20,12 @@ export class PhotoListComponent implements OnInit {
 
   url: string;
   photos: Photo[];
+  displayPhotos: Photo[];
 
   constructor(private photoService: PhotoService, private messageService: NzMessageService) { }
 
   ngOnInit(): void {
-    this.getPhotos();
-  }
-
-  getPhotos(): void {
-    this.photoService.getPhotos().subscribe(photos => this.photos = photos);
+    this.refresh();
   }
 
   editPhoto(selectedPhoto): void {
@@ -57,7 +54,7 @@ export class PhotoListComponent implements OnInit {
       .subscribe({
         next: data => {
           this.messageService.create("success", "Delete succeed!");
-          this.getPhotos();
+          this.refresh();
         },
         error: error => {
           this.messageService.create("error", error.error);
@@ -67,6 +64,10 @@ export class PhotoListComponent implements OnInit {
 
   refresh() {
     this.getPhotos();
+  }
+
+  getPhotos(): void {
+    this.photoService.getPhotos().subscribe(photos => { this.photos = photos; this.displayPhotos = photos; });
   }
 
   setUrl(photoId: number): void {
@@ -82,5 +83,17 @@ export class PhotoListComponent implements OnInit {
     } else if (info.file.status === 'error') {
       this.messageService.error(`${info.file.name} file upload failed.`);
     }
+  }
+
+  // Filter
+  searchLocationValue: string;
+
+  reset(): void {
+    this.searchLocationValue = '';
+    this.searchLocation();
+  }
+
+  searchLocation(): void {
+    this.displayPhotos = this.photos.filter((item: Photo) => item.location.indexOf(this.searchLocationValue) !== -1);
   }
 }
