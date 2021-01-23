@@ -1,1 +1,19 @@
-<p>global-view works!</p>
+<div class="container">
+    <div nz-row>
+        <div *ngFor="let url of urls" nz-col [nzSpan]="zoomLevel">
+            <div class="imglist">
+                <img class="img" nz-image nzSrc="{{url}}" alt="" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<nz-affix class="zoom" [nzOffsetBottom]="20">
+    <button nz-button nzType="default" (click)="zoomIn()">
+        <i nz-icon nzType="zoom-in" nzTheme="outline"></i>
+    </button>
+    <br />
+    <button nz-button nzType="default" (click)="zoomOut()">
+        <i nz-icon nzType="zoom-out" nzTheme="outline"></i>
+    </button>
+</nz-affix>
