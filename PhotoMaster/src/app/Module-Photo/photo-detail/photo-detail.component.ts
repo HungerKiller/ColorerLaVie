@@ -54,7 +54,7 @@ export class PhotoDetailComponent implements OnInit {
     }
 
     if (this.title == "Update") {
-      this.photoService.putPhoto(this.photoId, new Photo(this.photoId, this.date.toISOString(), this.location, this.description, this.listOfSelectedLabel))
+      this.photoService.putPhoto(this.photoId, new Photo(this.photoId, this.date?.toISOString(), this.location, this.description, this.listOfSelectedLabel))
         .subscribe({
           next: data => {
             this.message.create("success", "Update succeed!");
@@ -67,7 +67,7 @@ export class PhotoDetailComponent implements OnInit {
         });
     }
     else if (this.title == "Create") {
-      this.photoService.postPhoto(new Photo(0, this.date.toISOString(), this.location, this.description, this.listOfSelectedLabel))
+      this.photoService.postPhoto(new Photo(0, this.date?.toISOString(), this.location, this.description, this.listOfSelectedLabel))
         .subscribe({
           next: data => {
             this.photoId = data.id;

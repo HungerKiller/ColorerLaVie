@@ -43,13 +43,13 @@ export class PhotoListComponent implements OnInit {
       ids.push(value.id);
     });
     this.photoDetailComponent.labelIds = ids;
-
     this.photoDetailComponent.title = "Update";
     this.photoDetailComponent.isVisible = true;
   }
 
   createPhoto(): void {
     this.photoDetailComponent.photoId = 0;
+    this.photoDetailComponent.labelIds = <number[]>[];
     this.photoDetailComponent.title = "Create";
     this.photoDetailComponent.isVisible = true;
   }
