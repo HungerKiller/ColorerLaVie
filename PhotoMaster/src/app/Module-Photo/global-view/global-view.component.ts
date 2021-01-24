@@ -11,7 +11,7 @@ import { PhotoService } from 'src/app/Services/photo.service';
 export class GlobalViewComponent implements OnInit {
 
   urls = [] as string[];
-  zoomLevel = 24;
+  zoomLevel = 3;
   zoomList = [24, 12, 8, 6, 4, 3, 2, 1];
 
   constructor(private photoService: PhotoService) { }
@@ -24,7 +24,8 @@ export class GlobalViewComponent implements OnInit {
     this.photoService.getPhotos().subscribe({
       next: data => {
         for (let photo of data) {
-          this.urls.push(`${ApiRoute.HOST}/${photo.path}`);
+          if(photo.path != null)
+            this.urls.push(`${ApiRoute.HOST}/${photo.path}`);
         }
       },
       error: error => {
