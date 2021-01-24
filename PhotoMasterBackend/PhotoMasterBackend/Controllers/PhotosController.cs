@@ -129,9 +129,12 @@ namespace PhotoMasterBackend.Controllers
         {
             try
             {
-                if (await _photoRepository.GetPhotoAsync(id) == null)
+                var photo = await _photoRepository.GetPhotoAsync(id);
+                if (photo == null)
                     return NotFound($"Photo with id '{id}' not found.");
 
+                if (System.IO.File.Exists(photo.Path))
+                    System.IO.File.Delete(photo.Path);
                 await _photoRepository.DeletePhotoAsync(id);
                 return NoContent();
             }
