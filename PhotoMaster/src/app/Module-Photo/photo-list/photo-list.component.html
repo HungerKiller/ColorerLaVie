@@ -57,10 +57,10 @@
           </tr>
           <tr [nzExpand]="expandSet.has(data.id)">
             <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
-              <div nz-col [nzSpan]="10">
+              <div nz-col [nzSpan]="8">
                 <img *ngIf="data.path" nz-image width="100%" nzSrc="{{host}}/{{data.path}}" alt="" />
               </div>
-              <div nz-col [nzSpan]="14">
+              <div nz-col [nzSpan]="15">
                 <nz-collapse>
                   <nz-collapse-panel nzHeader="Description" nzActive>
                     <p style="margin:0;">

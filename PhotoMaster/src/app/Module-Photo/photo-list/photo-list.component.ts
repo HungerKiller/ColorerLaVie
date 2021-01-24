@@ -86,6 +86,7 @@ export class PhotoListComponent implements OnInit {
     // }
     if (info.file.status === 'done') {
       this.messageService.success(`${info.file.name} file uploaded successfully`);
+      this.refresh();
     } else if (info.file.status === 'error') {
       this.messageService.error(`${info.file.name} file upload failed.`);
     }
