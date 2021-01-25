@@ -22,6 +22,9 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 
+import { GalleriaModule } from 'primeng/galleria';
+import {ButtonModule} from 'primeng/button';
+
 import { DetailViewComponent } from './detail-view/detail-view.component';
 import { GlobalViewComponent } from './global-view/global-view.component';
 import { HomeViewComponent } from './home-view/home-view.component';
@@ -51,7 +54,9 @@ import { PhotoDetailComponent } from './photo-detail/photo-detail.component';
     NzDropDownModule,
     NzImageModule,
     NzCollapseModule,
-    NzAffixModule
+    NzAffixModule,
+    GalleriaModule,
+    ButtonModule
   ]
 })
 export class PhotoModule { }
