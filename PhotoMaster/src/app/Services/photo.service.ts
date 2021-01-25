@@ -38,4 +38,8 @@ export class PhotoService {
   uploadPhoto(photoId: number, formData: FormData): Observable<Photo> {
     return this.http.post<Photo>(ApiRoute.PHOTO.uploadPhoto(photoId), formData); //todo reportProgress
   }
+
+  uploadMultiPhotos(formData: FormData): Observable<Photo[]> {
+    return this.http.post<Photo[]>(ApiRoute.PHOTO.uploadMultiPhotos(), formData); //todo reportProgress
+  }
 }

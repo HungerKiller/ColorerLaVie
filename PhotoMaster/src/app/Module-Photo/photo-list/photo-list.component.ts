@@ -92,6 +92,35 @@ export class PhotoListComponent implements OnInit {
     }
   }
 
+  // Multi upload
+  public uploadFiles = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    let filesToUpload: File[] = files;
+    const formData = new FormData();
+
+    Array.from(filesToUpload).map((file, index) => {
+      return formData.append('file' + index, file, file.name);
+    });
+
+    this.photoService.uploadMultiPhotos(formData)
+      .subscribe({
+        next: data => {
+          this.messageService.create("success", `${data.length} files are uploaded successfully!`);
+          this.refresh();
+        },
+        error: error => {
+          this.messageService.create("error", error.error);
+        }
+      });
+  }
+
+  multiUpload() {
+    let upload = <HTMLInputElement>document.querySelector('#file-upload');
+    upload.click();
+  }
+
   // Table filter
   reset(): void {
     this.searchLocationValue = '';
