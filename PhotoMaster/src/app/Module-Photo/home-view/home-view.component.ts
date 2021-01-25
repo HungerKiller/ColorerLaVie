@@ -24,21 +24,10 @@ export class HomeViewComponent implements OnInit {
           if (photo.path != null)
             this.urls.push(`${ApiRoute.HOST}/${photo.path}`);
         }
-        window.addEventListener('resize', this.resizeAll);
       },
       error: error => {
         console.log(error.error);
       }
-    });
-  }
-
-  resizeAll() {
-    let gallery = document.querySelector('#gallery');
-    var altura = parseInt(window.getComputedStyle(gallery).getPropertyValue('grid-auto-rows'));
-    var gap = parseInt(window.getComputedStyle(gallery).getPropertyValue('grid-row-gap'));
-    gallery.querySelectorAll('.gallery-item').forEach(function (item) {
-      var el = <HTMLInputElement>item;
-      el.style.gridRowEnd = "span " + Math.ceil((item.querySelector('.content').getBoundingClientRect().height + gap) / (altura + gap));
     });
   }
 
@@ -49,6 +38,18 @@ export class HomeViewComponent implements OnInit {
       var gap = parseInt(window.getComputedStyle(gallery).getPropertyValue('grid-row-gap'));
       var item = event.target.parentElement.parentElement;
       item.style.gridRowEnd = "span " + Math.ceil((item.querySelector('.content').getBoundingClientRect().height + gap) / (altura + gap));
+    }
+  }
+
+  onResize(event) {
+    if (event && event.target) {
+      let gallery = document.querySelector('#gallery');
+      var altura = parseInt(window.getComputedStyle(gallery).getPropertyValue('grid-auto-rows'));
+      var gap = parseInt(window.getComputedStyle(gallery).getPropertyValue('grid-row-gap'));
+      gallery.querySelectorAll('.gallery-item').forEach(function (item) {
+        var el = <HTMLInputElement>item;
+        el.style.gridRowEnd = "span " + Math.ceil((item.querySelector('.content').getBoundingClientRect().height + gap) / (altura + gap));
+      });
     }
   }
 }

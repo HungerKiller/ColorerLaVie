@@ -1,4 +1,4 @@
-<div class="gallery" id="gallery">
+<div class="gallery" id="gallery" (window:resize)="onResize($event)">
     <div class="gallery-item" *ngFor="let url of urls">
         <div class="content">
             <img (load)="onImageLoad($event)" nz-image nzSrc="{{url}}" alt="" />
