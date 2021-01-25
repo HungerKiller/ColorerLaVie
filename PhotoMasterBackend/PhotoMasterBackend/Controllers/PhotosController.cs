@@ -190,9 +190,11 @@ namespace PhotoMasterBackend.Controllers
 
                 var formCollection = await Request.ReadFormAsync();
                 var file = formCollection.Files.First();
-
                 var folderName = Path.Combine("Resources", "UploadedImages");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                if (!CheckPhotoExtension(file.FileName))
+                    return BadRequest($"File is not a image.");
 
                 if (file.Length > 0)
                 {
@@ -220,6 +222,56 @@ namespace PhotoMasterBackend.Controllers
                 _logger.LogError(msg);
                 return StatusCode(StatusCodes.Status500InternalServerError, msg);
             }
+        }
+
+        // POST api/Photos/MultiUpload
+        [HttpPost("MultiUpload"), DisableRequestSizeLimit]
+        public async Task<ActionResult<IEnumerable<DTOs.Photo>>> MultiUploadAsync()
+        {
+            try
+            {
+                var formCollection = await Request.ReadFormAsync();
+                var files = formCollection.Files;
+                var folderName = Path.Combine("Resources", "UploadedImages");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                var photos = new List<Models.Photo>();
+                foreach (var file in files)
+                {
+                    if (file.Length == 0)
+                        continue;
+                    if (!CheckPhotoExtension(file.FileName))
+                        continue;
+
+                    // Create new photo
+                    var photo = await _photoRepository.AddPhotoAsync(new Models.Photo());
+                    // Save photo on disk
+                    var fileName = $"{photo.Id}_{ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')}";
+                    using (var stream = new FileStream(Path.Combine(pathToSave, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    // Update path
+                    photo.Path = Path.Combine(folderName, fileName);
+                    var photoUpdated = await _photoRepository.UpdatePhotoAsync(photo, false);
+                    photos.Add(photoUpdated);
+                }
+                var photosDTO = photos.Select(photo => _mapper.Map<DTOs.Photo>(photo));
+                return Ok(photosDTO);
+            }
+            catch (Exception ex)
+            {
+                var msg = "Error occurred while uploading image to server.";
+                _logger.LogError(msg);
+                return StatusCode(StatusCodes.Status500InternalServerError, msg);
+            }
+        }
+
+        private bool CheckPhotoExtension(string fileName)
+        {
+            var extensions = new string[] { ".tif", ".tiff", ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
+            var extension = Path.GetExtension(fileName);
+            return extensions.Contains(extension);
         }
 
         [Obsolete]
