@@ -1,16 +1,13 @@
 <nz-drawer [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="false" [nzWidth]="256" [nzVisible]="isVisible"
     [nzTitle]="title" [nzFooter]="footerTpl" (nzOnClose)="close()">
     <ng-container *nzDrawerContent>
-        <div nz-row [nzGutter]="8">
+        <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
             <div nz-col nzSpan="24">
                 <nz-tag class="tag">Id: </nz-tag> <br />
                 <nz-input-group>
-                    <input type="text" nz-input [(ngModel)]="labelId" disabled = "true"/>
+                    <input type="text" nz-input [(ngModel)]="labelId" disabled="true" />
                 </nz-input-group>
             </div>
-        </div>
-        <br/>
-        <div nz-row [nzGutter]="8">
             <div nz-col nzSpan="24">
                 <nz-tag class="tag">Name: </nz-tag> <br />
                 <nz-input-group [nzSuffix]="inputClearTpl">
@@ -20,6 +17,27 @@
                     <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="labelName"
                         (click)="labelName = null"></i>
                 </ng-template>
+            </div>
+            <div nz-col nzSpan="24">
+                <nz-tag class="tag">Color: </nz-tag> <br />
+                <nz-radio-group style="padding-bottom: 4px;" [(ngModel)]="colorMode" nzName="radiogroup">
+                    <label nz-radio nzValue="Select">Select</label>
+                    <label nz-radio nzValue="Custom">Custom</label>
+                </nz-radio-group>
+                <div *ngIf="colorMode=='Select'">
+                    <nz-select style="min-width: 120px;padding-bottom: 4px;" [(ngModel)]="selectedColor">
+                        <nz-option *ngFor="let color of listOfSelectedColors" [nzLabel]="color" [nzValue]="color">
+                        </nz-option>
+                    </nz-select>
+                    <nz-tag [(nzColor)]="selectedColor">Color Example</nz-tag>
+                </div>
+                <div *ngIf="colorMode=='Custom'">
+                    <nz-input-group>
+                        <input style="width: 120px;padding-bottom: 4px;" type="color" nz-input
+                            [(ngModel)]="pickedColor" />
+                    </nz-input-group>
+                    <nz-tag [(nzColor)]="pickedColor">Color Example</nz-tag>
+                </div>
             </div>
         </div>
     </ng-container>

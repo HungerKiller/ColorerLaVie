@@ -13,6 +13,11 @@ export class LabelDetailComponent implements OnInit {
   labelName: string;
   title: string;
   isVisible: boolean;
+  // Color
+  colorMode = "Select";
+  selectedColor = "red";
+  listOfSelectedColors = ["red", "cyan","blue","purple","yellow","lime","magenta","orange","green","volcano","gold","geekblue"];
+  pickedColor = "#3498DB";
 
   @Output() isNeedRefresh = new EventEmitter<boolean>();
 

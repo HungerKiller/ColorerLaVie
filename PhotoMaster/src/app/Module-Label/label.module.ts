@@ -15,6 +15,8 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 import { LabelDetailComponent } from './label-detail/label-detail.component';
 import { LabelListComponent } from './label-list/label-list.component';
@@ -36,7 +38,9 @@ import { LabelListComponent } from './label-list/label-list.component';
     NzMessageModule,
     NzPopconfirmModule,
     NzToolTipModule,
-    NzTagModule
+    NzTagModule,
+    NzRadioModule,
+    NzSelectModule
   ]
 })
 export class LabelModule { }
