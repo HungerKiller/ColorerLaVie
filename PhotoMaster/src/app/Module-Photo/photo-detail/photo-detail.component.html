@@ -1,43 +1,40 @@
 <nz-drawer [nzBodyStyle]="{ overflow: 'auto' }" [nzMaskClosable]="false" [nzWidth]="256" [nzVisible]="isVisible"
     [nzTitle]="title" [nzFooter]="footerTpl" (nzOnClose)="close()">
     <ng-container *nzDrawerContent>
-        <div nz-col nzSpan="24">
-            <nz-tag class="tag">Id: </nz-tag> <br />
-            <nz-input-group>
-                <input type="text" nz-input [(ngModel)]="photoId" disabled="true" />
-            </nz-input-group>
+        <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+            <div nz-col nzSpan="24">
+                <nz-tag class="tag">Id: </nz-tag> <br />
+                <nz-input-group>
+                    <input type="text" nz-input [(ngModel)]="photoId" disabled="true" />
+                </nz-input-group>
+            </div>
+            <div nz-col nzSpan="24">
+                <nz-tag class="tag">Date: </nz-tag><br />
+                <nz-date-picker [nzDisabledDate]="disabledDate" [(ngModel)]="date"></nz-date-picker>
+            </div>
+            <div nz-col nzSpan="24">
+                <nz-tag class="tag">Location: </nz-tag> <br />
+                <nz-input-group [nzSuffix]="inputClearTpl">
+                    <input type="text" nz-input [(ngModel)]="location" placeholder="Input location" />
+                </nz-input-group>
+                <ng-template #inputClearTpl>
+                    <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="location"
+                        (click)="location = null"></i>
+                </ng-template>
+            </div>
+            <div nz-col nzSpan="24">
+                <nz-tag class="tag">Labels: </nz-tag> <br />
+                <nz-select class="selector" [(ngModel)]="labelIds" [nzSize]="default" nzMode="tags"
+                    nzPlaceHolder="Please select">
+                    <nz-option *ngFor="let label of listOfAllLabel" [nzLabel]="label.name" [nzValue]="label.id">
+                    </nz-option>
+                </nz-select>
+            </div>
+            <div nz-col nzSpan="24">
+                <nz-tag class="tag">Description: </nz-tag> <br />
+                <textarea nz-input [(ngModel)]="description" placeholder="Input description" nzAutosize></textarea>
+            </div>
         </div>
-        <br />
-        <div nz-col nzSpan="24">
-            <nz-tag class="tag">Date: </nz-tag><br />
-            <nz-date-picker [nzDisabledDate]="disabledDate" [(ngModel)]="date"></nz-date-picker>
-        </div>
-        <br />
-        <div nz-col nzSpan="24">
-            <nz-tag class="tag">Location: </nz-tag> <br />
-            <nz-input-group [nzSuffix]="inputClearTpl">
-                <input type="text" nz-input [(ngModel)]="location" placeholder="Input location" />
-            </nz-input-group>
-            <ng-template #inputClearTpl>
-                <i nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="location"
-                    (click)="location = null"></i>
-            </ng-template>
-        </div>
-        <br />
-        <div nz-col nzSpan="24">
-            <nz-tag class="tag">Labels: </nz-tag> <br />
-            <nz-select class="selector" [(ngModel)]="labelIds" [nzSize]="default" nzMode="tags"
-                nzPlaceHolder="Please select">
-                <nz-option *ngFor="let label of listOfAllLabel" [nzLabel]="label.name" [nzValue]="label.id">
-                </nz-option>
-            </nz-select>
-        </div>
-        <br />
-        <div nz-col nzSpan="24">
-            <nz-tag class="tag">Description: </nz-tag> <br />
-            <textarea nz-input [(ngModel)]="description" placeholder="Input description" nzAutosize></textarea>
-        </div>
-        <br />
     </ng-container>
 
     <ng-template #footerTpl>
