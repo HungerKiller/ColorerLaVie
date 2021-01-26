@@ -1,11 +1,11 @@
 <div class="container">
-    <div nz-row>
+    <nz-image-group nz-row>
         <div *ngFor="let url of urls" nz-col [nzSpan]="zoomLevel">
             <div class="imglist">
                 <img class="img" nz-image nzSrc="{{url}}" alt="" />
             </div>
         </div>
-    </div>
+    </nz-image-group>
 </div>
 
 <nz-affix class="zoom" [nzOffsetBottom]="20">
