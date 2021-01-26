@@ -171,7 +171,7 @@ namespace PhotoMasterBackend.Controllers
                 if (labelRetrieved.Id != label.Id)
                     return (StatusCodes.Status400BadRequest, $"Label '{label.Name}' already exists, cannot update.");
                 else
-                    return (StatusCodes.Status400BadRequest, $"Label '{label.Name}' is identical as current, no need to update.");
+                    return (200, null);
             }
         }
     }
