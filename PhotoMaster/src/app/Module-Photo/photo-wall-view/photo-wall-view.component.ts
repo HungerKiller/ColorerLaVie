@@ -41,6 +41,10 @@ export class PhotoWallViewComponent implements OnInit {
   }
 
   getPhotoUrlsByLabels(): void {
+    if (this.listOfSelectedLabelIds === undefined) {
+      this.message.create("error", "Please select labels as filter");
+      return;
+    }
     this.photoService.getPhotosByLabels(this.listOfSelectedLabelIds)
       .subscribe({
         next: data => {
