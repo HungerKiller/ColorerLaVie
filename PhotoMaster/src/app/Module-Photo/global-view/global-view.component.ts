@@ -47,12 +47,4 @@ export class GlobalViewComponent implements OnInit {
     let index = this.zoomList.indexOf(this.zoomLevel);
     this.zoomLevel = this.zoomList[index + 1];
   }
-
-  displayCustom: boolean;
-
-    activeIndex: number = 0;
-    imageClick(index: number) {
-      this.activeIndex = index;
-      this.displayCustom = true;
-  }
 }

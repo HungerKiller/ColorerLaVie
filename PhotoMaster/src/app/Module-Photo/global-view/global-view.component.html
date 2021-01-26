@@ -1,17 +1,8 @@
-<p-galleria [(value)]="urls" [(visible)]="displayCustom" [(activeIndex)]="activeIndex"
-    [containerStyle]="{'max-width': '850px'}" [circular]="true" [fullScreen]="true" [showItemNavigators]="true"
-    [baseZIndex]="100000">
-    <ng-template pTemplate="item" let-item>
-        <img [src]="item" style="width: 100%; display: block;" />
-    </ng-template>
-</p-galleria>
-
 <div class="container">
     <div nz-row>
-        <div *ngFor="let url of urls; let index = index;" nz-col [nzSpan]="zoomLevel" key="index">
+        <div *ngFor="let url of urls" nz-col [nzSpan]="zoomLevel">
             <div class="imglist">
-                <!-- <img class="img" nz-image nzSrc="{{url}}" alt="" (click)="imageClick(index)"/> -->
-                <img class="img" [src]="url" (click)="imageClick(index)" />
+                <img class="img" nz-image nzSrc="{{url}}" alt="" />
             </div>
         </div>
     </div>
