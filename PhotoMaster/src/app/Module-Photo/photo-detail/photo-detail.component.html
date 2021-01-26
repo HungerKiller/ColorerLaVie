@@ -2,17 +2,20 @@
     [nzTitle]="title" [nzFooter]="footerTpl" (nzOnClose)="close()">
     <ng-container *nzDrawerContent>
         <div nz-col nzSpan="24">
-            <nz-input-group nzAddOnBefore="Id">
+            <nz-tag class="tag">Id: </nz-tag> <br />
+            <nz-input-group>
                 <input type="text" nz-input [(ngModel)]="photoId" disabled="true" />
             </nz-input-group>
         </div>
         <br />
         <div nz-col nzSpan="24">
+            <nz-tag class="tag">Date: </nz-tag><br />
             <nz-date-picker [nzDisabledDate]="disabledDate" [(ngModel)]="date"></nz-date-picker>
         </div>
         <br />
         <div nz-col nzSpan="24">
-            <nz-input-group nzAddOnBefore="Location" [nzSuffix]="inputClearTpl">
+            <nz-tag class="tag">Location: </nz-tag> <br />
+            <nz-input-group [nzSuffix]="inputClearTpl">
                 <input type="text" nz-input [(ngModel)]="location" placeholder="Input location" />
             </nz-input-group>
             <ng-template #inputClearTpl>
@@ -22,13 +25,16 @@
         </div>
         <br />
         <div nz-col nzSpan="24">
-            <nz-select [(ngModel)]="labelIds" [nzSize]="default" nzMode="tags" nzPlaceHolder="Please select">
+            <nz-tag class="tag">Labels: </nz-tag> <br />
+            <nz-select class="selector" [(ngModel)]="labelIds" [nzSize]="default" nzMode="tags"
+                nzPlaceHolder="Please select">
                 <nz-option *ngFor="let label of listOfAllLabel" [nzLabel]="label.name" [nzValue]="label.id">
                 </nz-option>
             </nz-select>
         </div>
         <br />
         <div nz-col nzSpan="24">
+            <nz-tag class="tag">Description: </nz-tag> <br />
             <textarea nz-input [(ngModel)]="description" placeholder="Input description" nzAutosize></textarea>
         </div>
         <br />

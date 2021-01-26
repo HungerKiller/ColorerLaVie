@@ -3,7 +3,8 @@
     <ng-container *nzDrawerContent>
         <div nz-row [nzGutter]="8">
             <div nz-col nzSpan="24">
-                <nz-input-group nzAddOnBefore = "Id">
+                <nz-tag class="tag">Id: </nz-tag> <br />
+                <nz-input-group>
                     <input type="text" nz-input [(ngModel)]="labelId" disabled = "true"/>
                 </nz-input-group>
             </div>
@@ -11,7 +12,8 @@
         <br/>
         <div nz-row [nzGutter]="8">
             <div nz-col nzSpan="24">
-                <nz-input-group nzAddOnBefore = "Name" [nzSuffix]="inputClearTpl">
+                <nz-tag class="tag">Name: </nz-tag> <br />
+                <nz-input-group [nzSuffix]="inputClearTpl">
                     <input type="text" nz-input [(ngModel)]="labelName" placeholder="Input name" />
                 </nz-input-group>
                 <ng-template #inputClearTpl>
