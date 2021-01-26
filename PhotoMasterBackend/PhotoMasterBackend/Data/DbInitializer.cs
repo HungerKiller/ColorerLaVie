@@ -18,11 +18,11 @@ namespace PhotoMasterBackend.Data
             // Initialize labels
             var labels = new Label[]
             {
-                new Label { Name = "Daily"},
-                new Label { Name = "Travel"},
-                new Label { Name = "Pet"},
-                new Label { Name = "Foods"},
-                new Label { Name = "Nature"}
+                new Label { Name = "Daily", Color = "red"},
+                new Label { Name = "Travel", Color = "blue"},
+                new Label { Name = "Pet", Color = "green"},
+                new Label { Name = "Foods", Color = "orange"},
+                new Label { Name = "Nature", Color = "cyan"}
             };
 
             // Add labels into DB

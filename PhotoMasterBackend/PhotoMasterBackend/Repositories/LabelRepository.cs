@@ -43,6 +43,7 @@ namespace PhotoMasterBackend.Repositories
             if (result != null)
             {
                 result.Name = label.Name;
+                result.Color = label.Color;
                 await _context.SaveChangesAsync();
                 return result;
             }

@@ -8,6 +8,8 @@ namespace PhotoMasterBackend.Models
         [Required]
         public string Name { get; set; }
 
+        public string Color { get; set; }
+
         public ICollection<PhotoLabel> PhotoLabels { get; set; }
     }
 }
