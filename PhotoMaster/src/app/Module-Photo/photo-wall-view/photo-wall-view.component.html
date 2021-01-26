@@ -1,5 +1,4 @@
 <nz-image-group class="gallery" id="gallery" (window:resize)="onResize($event)">
-
     <div class="gallery-item" *ngFor="let url of urls">
         <div class="content">
             <img (load)="onImageLoad($event)" nz-image nzSrc="{{url}}" alt="" />
@@ -8,7 +7,7 @@
 </nz-image-group>
 
 <nz-affix class="affixSelector" [nzOffsetTop]="10">
-    <button class="btnSelector" nz-button nzType="primary" (click)="open()">
+    <button class="btnSelector" nz-button nzType="default" (click)="open()">
         <i nz-icon nzType="filter" nzTheme="outline"></i>
     </button>
 </nz-affix>
@@ -19,8 +18,8 @@
             <label nz-radio nzValue="all">All photos</label>
             <label nz-radio nzValue="part">Filter by labels</label>
         </nz-radio-group>
-        <nz-select *ngIf="selectMode == 'part'" class="selector" [(ngModel)]="listOfSelectedLabelIds"
-            nzMode="multiple" nzPlaceHolder="Select labels">
+        <nz-select *ngIf="selectMode == 'part'" class="selector" [(ngModel)]="listOfSelectedLabelIds" nzMode="multiple"
+            nzPlaceHolder="Select labels">
             <nz-option *ngFor="let label of listOfAllLabel" [nzLabel]="label.name" [nzValue]="label.id">
             </nz-option>
         </nz-select>
