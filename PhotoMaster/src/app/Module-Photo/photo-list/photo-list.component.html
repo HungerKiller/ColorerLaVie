@@ -41,7 +41,7 @@
             <td>{{ data.location }}</td>
             <td>
               <div *ngFor="let label of data.labels">
-                <span>{{label.name}}</span>
+                <nz-tag [(nzColor)]="label.color">{{label.name}}</nz-tag>
               </div>
             </td>
             <td>
