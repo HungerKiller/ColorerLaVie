@@ -37,8 +37,6 @@ namespace PhotoMasterBackend.Repositories
 
             if (result != null)
             {
-                result.Path = photo.Path;
-
                 if (isUploadPhoto)
                 {
                     result.Date = photo.Date;
@@ -48,7 +46,11 @@ namespace PhotoMasterBackend.Repositories
                     // 所以为了perfo，可能需要直接操作关系表
                     result.PhotoLabels = photo.PhotoLabels;
                 }
-                
+                else
+                {
+                    result.Path = photo.Path;
+                }
+
                 await _context.SaveChangesAsync();
                 return result;
             }
