@@ -11,12 +11,13 @@ export class LabelDetailComponent implements OnInit {
 
   labelId: number;
   labelName: string;
+  labelColor: string;
   title: string;
   isVisible: boolean;
   // Color
   colorMode = "Select";
   selectedColor = "red";
-  listOfSelectedColors = ["red", "cyan","blue","purple","yellow","lime","magenta","orange","green","volcano","gold","geekblue"];
+  listOfSelectedColors = ["red", "cyan", "blue", "purple", "yellow", "lime", "magenta", "orange", "green", "volcano", "gold", "geekblue"];
   pickedColor = "#3498DB";
 
   @Output() isNeedRefresh = new EventEmitter<boolean>();
@@ -32,7 +33,8 @@ export class LabelDetailComponent implements OnInit {
 
   submit(): void {
     if (this.title == "Update") {
-      this.labelService.putLabel(this.labelId, { id: this.labelId, name: this.labelName })
+      let color = (this.colorMode == "Select") ? this.selectedColor : this.pickedColor;
+      this.labelService.putLabel(this.labelId, { id: this.labelId, name: this.labelName, color: color })
         .subscribe({
           next: data => {
             this.labelName = data.name;
@@ -46,7 +48,8 @@ export class LabelDetailComponent implements OnInit {
         });
     }
     else if (this.title == "Create") {
-      this.labelService.postLabel({ id: 0, name: this.labelName })
+      let color = (this.colorMode == "Select") ? this.selectedColor : this.pickedColor;
+      this.labelService.postLabel({ id: 0, name: this.labelName, color: color })
         .subscribe({
           next: data => {
             this.labelName = data.name;

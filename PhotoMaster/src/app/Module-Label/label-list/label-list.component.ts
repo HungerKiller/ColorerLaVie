@@ -11,7 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class LabelListComponent implements OnInit {
 
-  @ViewChild(LabelDetailComponent) labelDetailComponent : LabelDetailComponent;
+  @ViewChild(LabelDetailComponent) labelDetailComponent: LabelDetailComponent;
 
   labels: Label[];
 
@@ -25,14 +25,22 @@ export class LabelListComponent implements OnInit {
     this.labelService.getLabels().subscribe(labels => this.labels = labels);
   }
 
-  editLabel(selectedLabel): void{
+  editLabel(selectedLabel): void {
     this.labelDetailComponent.labelId = selectedLabel.id;
     this.labelDetailComponent.labelName = selectedLabel.name;
+    if (this.labelDetailComponent.listOfSelectedColors.includes(selectedLabel.color)) {
+      this.labelDetailComponent.colorMode = "Select";
+      this.labelDetailComponent.selectedColor = selectedLabel.color;
+    }
+    else {
+      this.labelDetailComponent.colorMode = "Custom";
+      this.labelDetailComponent.pickedColor = selectedLabel.color;
+    }
     this.labelDetailComponent.title = "Update";
     this.labelDetailComponent.isVisible = true;
   }
 
-  createLabel(): void{
+  createLabel(): void {
     this.labelDetailComponent.labelId = 0;
     this.labelDetailComponent.title = "Create";
     this.labelDetailComponent.isVisible = true;
@@ -40,18 +48,18 @@ export class LabelListComponent implements OnInit {
 
   deleteLabel(labelId: number): void {
     this.labelService.deleteLabel(labelId)
-    .subscribe({
-      next: data => {
+      .subscribe({
+        next: data => {
           this.messageService.create("success", "Delete succeed!");
           this.getLabels();
-      },
-      error: error => {
+        },
+        error: error => {
           this.messageService.create("error", error.error);
-      }
-  });
+        }
+      });
   }
 
-  refresh(){
+  refresh() {
     this.getLabels();
   }
 }
