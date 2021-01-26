@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApiRoute } from 'src/app/api-routes';
+import { Label } from 'src/app/Models/Label';
+import { LabelService } from 'src/app/Services/label.service';
 import { PhotoService } from 'src/app/Services/photo.service';
 
 @Component({
@@ -10,16 +13,22 @@ import { PhotoService } from 'src/app/Services/photo.service';
 export class PhotoWallViewComponent implements OnInit {
 
   urls = [] as string[];
+  visible = false;
+  listOfAllLabel: Label[];
+  listOfSelectedLabelIds: number[];
+  selectMode = "all";
 
-  constructor(private photoService: PhotoService) { }
+  constructor(private labelService: LabelService, private photoService: PhotoService, private message: NzMessageService) { }
 
   ngOnInit() {
-    this.getPhotoUrl();
+    this.getAllPhotoUrls();
+    this.getLabels();
   }
 
-  getPhotoUrl(): void {
+  getAllPhotoUrls(): void {
     this.photoService.getPhotos().subscribe({
       next: data => {
+        this.urls = [];
         for (let photo of data) {
           if (photo.path != null)
             this.urls.push(`${ApiRoute.HOST}/${photo.path}`);
@@ -29,6 +38,27 @@ export class PhotoWallViewComponent implements OnInit {
         console.log(error.error);
       }
     });
+  }
+
+  getPhotoUrlsByLabels(): void {
+    this.photoService.getPhotosByLabels(this.listOfSelectedLabelIds)
+      .subscribe({
+        next: data => {
+          this.message.create("success", "Filter photos!");
+          this.urls = [];
+          for (let photo of data) {
+            if (photo.path != null)
+              this.urls.push(`${ApiRoute.HOST}/${photo.path}`);
+          }
+        },
+        error: error => {
+          this.message.create("error", error.error);
+        }
+      });
+  }
+
+  getLabels(): void {
+    this.labelService.getLabels().subscribe(labels => this.listOfAllLabel = labels);
   }
 
   onImageLoad(event) {
@@ -51,5 +81,17 @@ export class PhotoWallViewComponent implements OnInit {
         el.style.gridRowEnd = "span " + Math.ceil((item.querySelector('.content').getBoundingClientRect().height + gap) / (altura + gap));
       });
     }
+  }
+
+  open(): void {
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
+    if (this.selectMode == "all")
+      this.getAllPhotoUrls();
+    else
+      this.getPhotoUrlsByLabels();
   }
 }
