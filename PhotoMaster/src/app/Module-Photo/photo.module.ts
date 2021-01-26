@@ -27,9 +27,10 @@ import { GlobalViewComponent } from './global-view/global-view.component';
 import { HomeViewComponent } from './home-view/home-view.component';
 import { PhotoListComponent } from './photo-list/photo-list.component';
 import { PhotoDetailComponent } from './photo-detail/photo-detail.component';
+import { PhotoWallViewComponent } from './photo-wall-view/photo-wall-view.component';
 
 @NgModule({
-  declarations: [DetailViewComponent, GlobalViewComponent, HomeViewComponent, PhotoListComponent, PhotoDetailComponent],
+  declarations: [DetailViewComponent, GlobalViewComponent, HomeViewComponent, PhotoListComponent, PhotoDetailComponent, PhotoWallViewComponent],
   imports: [
     CommonModule,
     RouterModule,
