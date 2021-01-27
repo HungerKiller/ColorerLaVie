@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './Components/admin/admin.component';
-import { ContactComponent } from './Components/contact/contact.component';
+import { AboutComponent } from './Components/about/about.component';
 import { GlobalViewComponent } from './Module-Photo/global-view/global-view.component';
 import { HomeViewComponent } from './Module-Photo/home-view/home-view.component';
 import { LabelListComponent } from './Module-Label/label-list/label-list.component';
@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'home', component: HomeViewComponent },
   { path: 'global', component: GlobalViewComponent },
   { path: 'wall', component: PhotoWallViewComponent },
-  { path: 'contact', component: ContactComponent },
+  { path: 'about', component: AboutComponent },
   {
     path: 'admin',
     component: AdminComponent, // this is the component with the <router-outlet> in the template

@@ -1,0 +1,33 @@
+<div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+    <div nz-col [nzSpan]="16" style="margin: auto;">
+        <nz-divider class="title" [nzText]="tech" nzOrientation="left">
+            <ng-template #tech><i nz-icon nzType="tool" nzTheme="outline"></i>Techniques</ng-template>
+        </nz-divider>
+        <nz-table #basicTable [nzData]="listOfTech" [nzShowPagination]="false">
+            <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                    <td class="tech">{{data.key}}</td>
+                    <td class="tech">{{data.tech}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+
+    <div class="contact" nz-col [nzSpan]="16" style="margin: auto;">
+        <nz-divider class="title" [nzText]="contact" nzOrientation="left">
+            <ng-template #contact><i nz-icon nzType="contacts" nzTheme="outline"></i>Contact</ng-template>
+        </nz-divider>
+        <div>
+            <i nz-icon style="font-size: 18px" nzType="mail" nzTheme="outline"></i> Email
+            <p><a href="mailto:zhongshui.wang.chn@gmail.com">zhongshui.wang.chn@gmail.com</a></p>
+        </div>
+        <div>
+            <i nz-icon style="font-size: 18px" nzType="wechat" nzTheme="outline"></i> WeChat
+            <br />
+            <img style="width: 120px;" src=".\assets\images\qrcode.jpg" alt="QR code">
+        </div>
+        <div style="padding-top: 4px;">
+            <i nz-icon style="font-size: 18px" nzType="copyright" nzTheme="outline"></i> 2021 Shui
+        </div>
+    </div>
+</div>

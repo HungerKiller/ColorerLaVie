@@ -14,9 +14,11 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 import { MenuComponent } from './Components/menu/menu.component';
-import { ContactComponent } from './Components/contact/contact.component';
+import { AboutComponent } from './Components/about/about.component';
 import { AdminComponent } from './Components/admin/admin.component';
 import { LabelModule } from './Module-Label/label.module';
 import { PhotoModule } from './Module-Photo/photo.module';
@@ -31,7 +33,7 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     MenuComponent,
-    ContactComponent,
+    AboutComponent,
     AdminComponent
   ],
   imports: [
@@ -50,7 +52,9 @@ registerLocaleData(en);
     NzDropDownModule,
     NzTabsModule,
     NzGridModule,
-    NzAffixModule
+    NzAffixModule,
+    NzDividerModule,
+    NzTableModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
