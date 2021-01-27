@@ -1,7 +1,17 @@
-<div class="gallery" id="gallery" (window:resize)="onResize($event)">
-    <div class="gallery-item" *ngFor="let url of urls">
-        <div class="content">
-            <img (load)="onImageLoad($event)" nz-image nzSrc="{{url}}" alt="" />
-        </div>
+<nz-affix class="affix-title" [nzOffsetTop]="10">
+    <div [ngStyle]="styles">
+        Colorer la vie
+    </div>
+</nz-affix>
+
+<div class="nav">
+    <div class="container">
+        <nz-carousel nzAutoPlay>
+            <div nz-carousel-content *ngFor="let index of array">
+                <div
+                    style="height: 100vh;background-size: cover;background-position: center 0;background-image: url({{index}});">
+                </div>
+            </div>
+        </nz-carousel>
     </div>
 </div>

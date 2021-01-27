@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiRoute } from 'src/app/api-routes';
-import { PhotoService } from 'src/app/Services/photo.service';
 
 @Component({
   selector: 'app-home-view',
@@ -9,47 +7,29 @@ import { PhotoService } from 'src/app/Services/photo.service';
 })
 export class HomeViewComponent implements OnInit {
 
-  urls = [] as string[];
+  array = ["../../../assets/images/1.jpg", "../../../assets/images/2.jpg", "../../../assets/images/3.jpg",
+    "../../../assets/images/4.jpg", "../../../assets/images/5.jpg", "../../../assets/images/6.jpg", "../../../assets/images/7.jpg"];
 
-  constructor(private photoService: PhotoService) { }
+  index = 0;
+  colors = ["#A93226", "#E67E22", "#F1C40F", "#2ECC71", "#3498DB", "#2471A3", "#8E44AD"];
+  styles = {
+    fontFamily: "'Alex Brush', cursive",
+    fontSize: "50px",
+    color: "#A93226"
+  }
+
+  constructor() { }
 
   ngOnInit() {
-    this.getPhotoUrl();
+    this.setStyle();
   }
 
-  getPhotoUrl(): void {
-    this.photoService.getPhotos().subscribe({
-      next: data => {
-        for (let photo of data) {
-          if (photo.path != null)
-            this.urls.push(`${ApiRoute.HOST}/${photo.path}`);
-        }
-      },
-      error: error => {
-        console.log(error.error);
-      }
-    });
-  }
-
-  onImageLoad(event) {
-    if (event && event.target) {
-      let gallery = document.querySelector('#gallery');
-      var altura = parseInt(window.getComputedStyle(gallery).getPropertyValue('grid-auto-rows'));
-      var gap = parseInt(window.getComputedStyle(gallery).getPropertyValue('grid-row-gap'));
-      var item = event.target.parentElement.parentElement;
-      item.style.gridRowEnd = "span " + Math.ceil((item.querySelector('.content').getBoundingClientRect().height + gap) / (altura + gap));
-    }
-  }
-
-  onResize(event) {
-    if (event && event.target) {
-      let gallery = document.querySelector('#gallery');
-      var altura = parseInt(window.getComputedStyle(gallery).getPropertyValue('grid-auto-rows'));
-      var gap = parseInt(window.getComputedStyle(gallery).getPropertyValue('grid-row-gap'));
-      gallery.querySelectorAll('.gallery-item').forEach(function (item) {
-        var el = <HTMLInputElement>item;
-        el.style.gridRowEnd = "span " + Math.ceil((item.querySelector('.content').getBoundingClientRect().height + gap) / (altura + gap));
-      });
-    }
+  setStyle() {
+    setInterval(() => {
+      this.index++;
+      if (this.index >= this.colors.length)
+        this.index = this.index - this.colors.length;
+      this.styles.color = this.colors[this.index];
+    }, 2000);
   }
 }
