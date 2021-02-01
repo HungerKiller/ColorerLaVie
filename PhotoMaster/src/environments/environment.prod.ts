@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  host: 'https://localhost:44344',  // todo change as prod api url
+  host: 'https://photomasterbackendapi01.azure-api.net',  // todo change as prod api url
   apiPrefix: 'api'
 };

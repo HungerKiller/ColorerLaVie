@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  host: 'https://localhost:44344',
+  host: 'https://photomasterbackendapi01.azure-api.net',
   apiPrefix: 'api'
 };
 
