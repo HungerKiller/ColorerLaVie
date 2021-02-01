@@ -74,6 +74,14 @@ namespace PhotoMasterBackend
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+
+            var resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), @"Resources");
+            if (!Directory.Exists(resourcesPath))
+                Directory.CreateDirectory(resourcesPath);
+            var imagesPath = Path.Combine(resourcesPath, @"UploadedImages");
+            if (!Directory.Exists(imagesPath))
+                Directory.CreateDirectory(imagesPath);
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
