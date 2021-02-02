@@ -210,31 +210,6 @@ namespace PhotoMasterBackend.Test.Controllers
         }
 
         [Fact]
-        public void PutAsync_Failed_LabelIdentiqueAsCurrent()
-        {
-            var mockLabelRepo = new Mock<ILabelRepository>();
-            var mockLogger = new Mock<ILogger<LabelsController>>();
-            var mockMapper = new Mock<IMapper>();
-
-            var labelModel = new Models.Label { Id = 1, Name = "LabelA" };
-            mockLabelRepo.Setup(x => x.GetLabelAsync(It.IsAny<int>())).Returns(Task.FromResult(labelModel));
-            var labels = new List<Models.Label>() { labelModel, new Models.Label { Name = "LabelB" } };
-            mockLabelRepo.Setup(x => x.GetLabelsAsync()).Returns(Task.FromResult(labels.AsEnumerable()));
-
-            // Arrange
-            var controller = new LabelsController(mockLogger.Object, mockMapper.Object, mockLabelRepo.Object);
-
-            // Act
-            var label = new DTOs.Label { Id = 1, Name = "LabelA" };
-            var response = controller.PutAsync(1, label);
-
-            // Assert
-            var result = response.Result.Result as ObjectResult;
-            result.StatusCode.ShouldBe(400);
-            result.Value.ShouldBe($"Label '{label.Name}' is identical as current, no need to update.");
-        }
-
-        [Fact]
         public void PutAsync_Succeed()
         {
             var mockLabelRepo = new Mock<ILabelRepository>();

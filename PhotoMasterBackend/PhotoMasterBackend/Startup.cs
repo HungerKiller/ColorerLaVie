@@ -75,18 +75,20 @@ namespace PhotoMasterBackend
 
             app.UseStaticFiles();
 
-            var resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), @"Resources");
-            if (!Directory.Exists(resourcesPath))
-                Directory.CreateDirectory(resourcesPath);
-            var imagesPath = Path.Combine(resourcesPath, @"UploadedImages");
-            if (!Directory.Exists(imagesPath))
-                Directory.CreateDirectory(imagesPath);
+            // The local/network folder containing static files we are mapping to
+            var staticFilesFolder = Configuration.GetSection("StaticFilesFolder").Value;
+            // Create directory if not exists
+            if (!Directory.Exists(staticFilesFolder))
+                Directory.CreateDirectory(staticFilesFolder);
 
-            app.UseStaticFiles(new StaticFileOptions()
+            if (!string.IsNullOrWhiteSpace(staticFilesFolder))
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-                RequestPath = new PathString("/Resources")
-            });
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(staticFilesFolder),
+                    RequestPath = Configuration.GetSection("StaticFilesUrlPath").Value // The path in the url we will manage
+                });
+            }
 
             app.UseCors(MyAllowSpecificOrigins);
 

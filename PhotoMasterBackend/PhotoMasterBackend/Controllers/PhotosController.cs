@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PhotoMasterBackend.Repositories;
 using System;
@@ -20,13 +21,15 @@ namespace PhotoMasterBackend.Controllers
         private readonly IMapper _mapper;
         private readonly IPhotoRepository _photoRepository;
         private readonly ILabelRepository _labelRepository;
+        private readonly IConfiguration _configuration;
 
-        public PhotosController(ILogger<PhotosController> logger, IMapper mapper, IPhotoRepository photoRepository, ILabelRepository labelRepository)
+        public PhotosController(ILogger<PhotosController> logger, IMapper mapper, IPhotoRepository photoRepository, ILabelRepository labelRepository, IConfiguration configuration)
         {
             _logger = logger;
             _mapper = mapper;
             _photoRepository = photoRepository;
             _labelRepository = labelRepository;
+            _configuration = configuration;
         }
 
         // GET: api/Photos
@@ -133,8 +136,10 @@ namespace PhotoMasterBackend.Controllers
                 if (photo == null)
                     return NotFound($"Photo with id '{id}' not found.");
 
-                if (System.IO.File.Exists(photo.Path))
-                    System.IO.File.Delete(photo.Path);
+                // Get file path on disk
+                var path = Path.Combine(_configuration.GetSection("StaticFilesFolder").Value, photo.Path.Split("\\")[1]);
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
                 await _photoRepository.DeletePhotoAsync(id);
                 return NoContent();
             }
@@ -190,8 +195,7 @@ namespace PhotoMasterBackend.Controllers
 
                 var formCollection = await Request.ReadFormAsync();
                 var file = formCollection.Files.First();
-                var folderName = Path.Combine("Resources", "UploadedImages");
-                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var pathToSave = _configuration.GetSection("StaticFilesFolder").Value;
 
                 if (!CheckPhotoExtension(file.FileName))
                     return BadRequest($"File is not a image.");
@@ -206,7 +210,7 @@ namespace PhotoMasterBackend.Controllers
                         file.CopyTo(stream);
                     }
 
-                    photo.Path = Path.Combine(folderName, fileName);
+                    photo.Path = Path.Combine(_configuration.GetSection("StaticFilesUrlPath").Value[1..], fileName);
                     var photoUpdated = await _photoRepository.UpdatePhotoAsync(photo, false);
                     var photoDTO = _mapper.Map<DTOs.Photo>(photoUpdated);
                     return Ok(photoDTO);
@@ -232,8 +236,7 @@ namespace PhotoMasterBackend.Controllers
             {
                 var formCollection = await Request.ReadFormAsync();
                 var files = formCollection.Files;
-                var folderName = Path.Combine("Resources", "UploadedImages");
-                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var pathToSave = _configuration.GetSection("StaticFilesFolder").Value;
 
                 var photos = new List<Models.Photo>();
                 foreach (var file in files)
@@ -252,7 +255,7 @@ namespace PhotoMasterBackend.Controllers
                         file.CopyTo(stream);
                     }
                     // Update path
-                    photo.Path = Path.Combine(folderName, fileName);
+                    photo.Path = Path.Combine(_configuration.GetSection("StaticFilesUrlPath").Value[1..], fileName);
                     var photoUpdated = await _photoRepository.UpdatePhotoAsync(photo, false);
                     photos.Add(photoUpdated);
                 }
