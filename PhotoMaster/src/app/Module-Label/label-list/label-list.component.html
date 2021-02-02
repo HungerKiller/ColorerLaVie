@@ -6,7 +6,7 @@
     </button>
     <br/><br/>
     <nz-table #borderedTable nzBordered [nzShowSizeChanger]="true" [nzPageSizeOptions]='[10,20,30]' [nzPageSize]="10"
-      [nzShowTotal]="totalTemplate" [nzData]="labels">
+      [nzShowTotal]="totalTemplate" [nzData]="labels" [nzLoading]="loading">
       <thead>
         <tr>
           <th>Id</th>

@@ -15,6 +15,8 @@ export class LabelListComponent implements OnInit {
 
   labels: Label[];
 
+  loading = true;
+
   constructor(private labelService: LabelService, private messageService: NzMessageService) { }
 
   ngOnInit(): void {
@@ -22,7 +24,8 @@ export class LabelListComponent implements OnInit {
   }
 
   getLabels(): void {
-    this.labelService.getLabels().subscribe(labels => this.labels = labels);
+    this.loading = true;
+    this.labelService.getLabels().subscribe(labels => { this.loading = false; this.labels = labels; });
   }
 
   editLabel(selectedLabel): void {

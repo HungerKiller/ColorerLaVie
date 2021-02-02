@@ -22,6 +22,7 @@ export class PhotoListComponent implements OnInit {
   photos: Photo[];
   displayPhotos: Photo[];
   host = ApiRoute.HOST;
+  loading = true;
 
   // Varibale of table function
   searchLocationValue: string;
@@ -72,7 +73,8 @@ export class PhotoListComponent implements OnInit {
   }
 
   getPhotos(): void {
-    this.photoService.getPhotos().subscribe(photos => { this.photos = photos; this.displayPhotos = photos; });
+    this.loading = true;
+    this.photoService.getPhotos().subscribe(photos => { this.loading = false; this.photos = photos; this.displayPhotos = photos; });
   }
 
   // Upload photo
