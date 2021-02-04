@@ -1,3 +1,11 @@
+<nz-back-top [nzTemplate]="tpl" [nzVisibilityHeight]="100">
+    <ng-template #tpl>
+        <div style="color: white">
+            <i nz-icon nzType="arrow-up" nzTheme="outline"></i>
+        </div>
+    </ng-template>
+</nz-back-top>
+
 <div class="container">
     <nz-image-group nz-row>
         <div *ngFor="let url of urls" nz-col [nzSpan]="zoomLevel">

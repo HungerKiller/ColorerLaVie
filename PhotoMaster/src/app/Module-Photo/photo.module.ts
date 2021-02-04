@@ -24,6 +24,7 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
+import { NzBackTopModule } from 'ng-zorro-antd/back-top';
 
 import { DetailViewComponent } from './detail-view/detail-view.component';
 import { GlobalViewComponent } from './global-view/global-view.component';
@@ -58,7 +59,8 @@ import { PhotoWallViewComponent } from './photo-wall-view/photo-wall-view.compon
     NzAffixModule,
     NzRadioModule,
     NzTagModule,
-    NzCarouselModule
+    NzCarouselModule,
+    NzBackTopModule
   ]
 })
 export class PhotoModule { }
