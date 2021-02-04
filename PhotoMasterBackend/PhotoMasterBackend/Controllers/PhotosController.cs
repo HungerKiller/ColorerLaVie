@@ -138,9 +138,12 @@ namespace PhotoMasterBackend.Controllers
 
                 // Get file path on disk
                 var lenPrefix = _configuration.GetSection("StaticFilesUrlPath").Value.Length;
-                var path = Path.Combine(_configuration.GetSection("StaticFilesFolder").Value, photo.Path[lenPrefix..]);
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);
+                if (photo.Path != null)
+                {
+                    var path = Path.Combine(_configuration.GetSection("StaticFilesFolder").Value, photo.Path[lenPrefix..]);
+                    if (System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+                }
                 await _photoRepository.DeletePhotoAsync(id);
                 return NoContent();
             }
@@ -256,7 +259,7 @@ namespace PhotoMasterBackend.Controllers
                         file.CopyTo(stream);
                     }
                     // Update path
-                    photo.Path = Path.Combine(_configuration.GetSection("StaticFilesUrlFolder").Value[1..], fileName);
+                    photo.Path = Path.Combine(_configuration.GetSection("StaticFilesUrlPath").Value[1..], fileName);
                     var photoUpdated = await _photoRepository.UpdatePhotoAsync(photo, false);
                     photos.Add(photoUpdated);
                 }
