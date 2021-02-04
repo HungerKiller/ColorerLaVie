@@ -214,6 +214,16 @@ namespace PhotoMasterBackend.Controllers
                         file.CopyTo(stream);
                     }
 
+                    // Try delete old file on disk
+                    var lenPrefix = _configuration.GetSection("StaticFilesUrlPath").Value.Length;
+                    if (photo.Path != null)
+                    {
+                        var path = Path.Combine(_configuration.GetSection("StaticFilesFolder").Value, photo.Path[lenPrefix..]);
+                        if (System.IO.File.Exists(path))
+                            System.IO.File.Delete(path);
+                    }
+
+                    // Set new path
                     photo.Path = Path.Combine(_configuration.GetSection("StaticFilesUrlPath").Value[1..], fileName);
                     var photoUpdated = await _photoRepository.UpdatePhotoAsync(photo, false);
                     var photoDTO = _mapper.Map<DTOs.Photo>(photoUpdated);
