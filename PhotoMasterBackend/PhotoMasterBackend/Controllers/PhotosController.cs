@@ -263,7 +263,7 @@ namespace PhotoMasterBackend.Controllers
                 var photosDTO = photos.Select(photo => _mapper.Map<DTOs.Photo>(photo));
                 return Ok(photosDTO);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 var msg = "Error occurred while uploading image to server.";
                 _logger.LogError(msg);
