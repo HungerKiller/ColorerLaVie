@@ -206,8 +206,6 @@ namespace PhotoMasterBackend.Controllers
 
                 if (file.Length > 0)
                 {
-                    if (System.IO.File.Exists(photo.Path))
-                        System.IO.File.Delete(photo.Path);
                     var fileName = $"{id}_{ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')}";
                     using (var stream = new FileStream(Path.Combine(pathToSave, fileName), FileMode.Create))
                     {
