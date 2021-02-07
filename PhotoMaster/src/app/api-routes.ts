@@ -1,9 +1,8 @@
 import { environment } from '../environments/environment';
 
 export class ApiRoute {
-    private static readonly BaseUrl = `${environment.host}/${environment.apiPrefix}`;
-
-    public static readonly HOST = `${environment.host}`;
+    private static readonly BaseUrl = `${environment.apiHost}`;
+    public static readonly APPSERVICEHOST = `${environment.appServiceHost}`;
 
     public static readonly LABEL = {
         getLabels: () => `${ApiRoute.BaseUrl}/labels`,

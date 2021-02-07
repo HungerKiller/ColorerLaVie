@@ -31,7 +31,7 @@ export class PhotoWallViewComponent implements OnInit {
         this.urls = [];
         for (let photo of data) {
           if (photo.path != null)
-            this.urls.push(`${ApiRoute.HOST}/${photo.path}`);
+            this.urls.push(`${ApiRoute.APPSERVICEHOST}/${photo.path}`);
         }
       },
       error: error => {
@@ -52,7 +52,7 @@ export class PhotoWallViewComponent implements OnInit {
           this.urls = [];
           for (let photo of data) {
             if (photo.path != null)
-              this.urls.push(`${ApiRoute.HOST}/${photo.path}`);
+              this.urls.push(`${ApiRoute.APPSERVICEHOST}/${photo.path}`);
           }
         },
         error: error => {

@@ -21,7 +21,7 @@ export class PhotoListComponent implements OnInit {
   url: string;
   photos: Photo[];
   displayPhotos: Photo[];
-  host = ApiRoute.HOST;
+  host = ApiRoute.APPSERVICEHOST;
   loading = true;
 
   // Varibale of table function

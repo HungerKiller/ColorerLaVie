@@ -25,7 +25,7 @@ export class GlobalViewComponent implements OnInit {
       next: data => {
         for (let photo of data) {
           if(photo.path != null)
-            this.urls.push(`${ApiRoute.HOST}/${photo.path}`);
+            this.urls.push(`${ApiRoute.APPSERVICEHOST}/${photo.path}`);
         }
       },
       error: error => {

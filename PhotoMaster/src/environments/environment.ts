@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  host: 'https://photomasterbackendapi01.azure-api.net',
-  apiPrefix: 'api'
+  apiHost: 'https://photomasterbackendapi01.azure-api.net/api',
+  appServiceHost: 'https://photomasterbackend.azurewebsites.net'
 };
 
 /*
