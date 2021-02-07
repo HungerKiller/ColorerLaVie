@@ -206,12 +206,6 @@ namespace PhotoMasterBackend.Controllers
 
                 if (file.Length > 0)
                 {
-                    var fileName = $"{id}_{ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')}";
-                    using (var stream = new FileStream(Path.Combine(pathToSave, fileName), FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-
                     // Try delete old file on disk
                     var lenPrefix = _configuration.GetSection("StaticFilesUrlPath").Value.Length;
                     if (photo.Path != null)
@@ -220,7 +214,12 @@ namespace PhotoMasterBackend.Controllers
                         if (System.IO.File.Exists(path))
                             System.IO.File.Delete(path);
                     }
-
+                    // Copy file
+                    var fileName = $"{id}_{ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')}";
+                    using (var stream = new FileStream(Path.Combine(pathToSave, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
                     // Set new path
                     photo.Path = Path.Combine(_configuration.GetSection("StaticFilesUrlPath").Value[1..], fileName);
                     var photoUpdated = await _photoRepository.UpdatePhotoAsync(photo, false);
