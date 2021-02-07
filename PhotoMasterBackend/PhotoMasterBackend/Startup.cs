@@ -54,6 +54,8 @@ namespace PhotoMasterBackend
                                   });
             });
 
+            services.AddDirectoryBrowser();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -73,8 +75,6 @@ namespace PhotoMasterBackend
 
             app.UseHttpsRedirection();
 
-            app.UseStaticFiles();
-
             // The local/network folder containing static files we are mapping to
             var staticFilesFolder = Configuration.GetSection("StaticFilesFolder").Value;
             // Create directory if not exists
@@ -89,6 +89,12 @@ namespace PhotoMasterBackend
                     RequestPath = Configuration.GetSection("StaticFilesUrlPath").Value // The path in the url we will manage
                 });
             }
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(staticFilesFolder),
+                RequestPath = Configuration.GetSection("StaticFilesUrlPath").Value
+            });
 
             app.UseCors(MyAllowSpecificOrigins);
 
