@@ -1,0 +1,32 @@
+<div>
+    <nz-descriptions nzTitle="Current login user">
+        <nz-descriptions-item nzTitle="UserName">{{username}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Role">{{userrole}}</nz-descriptions-item>
+    </nz-descriptions>
+    <nz-divider></nz-divider>
+</div>
+<div>
+    <nz-descriptions nzTitle="Login as other user">
+    </nz-descriptions>
+    <form nz-form [nzLayout]="'inline'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your username!">
+                <nz-input-group nzPrefixIcon="user">
+                    <input formControlName="username" nz-input placeholder="Username" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your password!">
+                <nz-input-group nzPrefixIcon="lock">
+                    <input formControlName="password" nz-input type="password" placeholder="Password" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <button nz-button nzType="primary" [disabled]="!validateForm.valid">Log in</button>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</div>

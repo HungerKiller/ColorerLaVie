@@ -26,4 +26,8 @@ export class ApiRoute {
         uploadPhoto: (photoId: number) => `${ApiRoute.BaseUrl}/photos/upload/${photoId}`,
         uploadMultiPhotos: () => `${ApiRoute.BaseUrl}/photos/multiupload`
     }
+
+    public static readonly USER = {
+        getToken: () => `${ApiRoute.BaseUrl}/users/token`,
+    }
 }

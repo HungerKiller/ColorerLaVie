@@ -16,6 +16,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 import { MenuComponent } from './Components/menu/menu.component';
 import { AboutComponent } from './Components/about/about.component';
@@ -25,7 +28,8 @@ import { PhotoModule } from './Module-Photo/photo.module';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import en from '@angular/common/locales/en';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { LoginComponent } from './Components/login/login.component';
 
 registerLocaleData(en);
 
@@ -34,7 +38,8 @@ registerLocaleData(en);
     AppComponent,
     MenuComponent,
     AboutComponent,
-    AdminComponent
+    AdminComponent,
+    LoginComponent
   ],
   imports: [
     LabelModule,
@@ -45,6 +50,7 @@ registerLocaleData(en);
     HttpClientModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     NzMenuModule,
     NzIconModule,
     NzButtonModule,
@@ -54,7 +60,10 @@ registerLocaleData(en);
     NzGridModule,
     NzAffixModule,
     NzDividerModule,
-    NzTableModule
+    NzTableModule,
+    NzFormModule,
+    NzInputModule,
+    NzDescriptionsModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]

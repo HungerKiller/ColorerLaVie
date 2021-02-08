@@ -7,6 +7,7 @@ import { HomeViewComponent } from './Module-Photo/home-view/home-view.component'
 import { LabelListComponent } from './Module-Label/label-list/label-list.component';
 import { PhotoListComponent } from './Module-Photo/photo-list/photo-list.component';
 import { PhotoWallViewComponent } from './Module-Photo/photo-wall-view/photo-wall-view.component';
+import { LoginComponent } from './Components/login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -20,11 +21,15 @@ const routes: Routes = [
     children: [
       {
         path: 'labels', // child route path
-        component: LabelListComponent, // child route component that the router renders
+        component: LabelListComponent // child route component that the router renders
       },
       {
         path: 'photos',
-        component: PhotoListComponent, // another child route component that the router renders
+        component: PhotoListComponent // another child route component that the router renders
+      },
+      {
+        path: 'login',
+        component: LoginComponent
       }
     ]
   }
