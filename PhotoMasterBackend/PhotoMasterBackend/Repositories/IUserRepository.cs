@@ -8,6 +8,7 @@ namespace PhotoMasterBackend.Repositories
     {
         Task<IEnumerable<User>> GetUsersAsync();
         Task<User> GetUserAsync(int userId);
+        Task<User> GetUserAsync(string username);
         Task<User> GetUserAsync(string username, string password);
         Task<User> AddUserAsync(User user);
         Task<User> UpdateUserAsync(User user);

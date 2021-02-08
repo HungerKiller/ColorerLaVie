@@ -23,15 +23,19 @@ namespace PhotoMasterBackend.Controllers
         private readonly IMapper _mapper;
         private readonly IPhotoRepository _photoRepository;
         private readonly ILabelRepository _labelRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PhotosController(ILogger<PhotosController> logger, IMapper mapper, IPhotoRepository photoRepository, ILabelRepository labelRepository, IConfiguration configuration)
+        public PhotosController(ILogger<PhotosController> logger, IMapper mapper, IPhotoRepository photoRepository, ILabelRepository labelRepository, IUserRepository userRepository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _mapper = mapper;
             _photoRepository = photoRepository;
             _labelRepository = labelRepository;
+            _userRepository = userRepository;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: api/Photos
@@ -41,6 +45,15 @@ namespace PhotoMasterBackend.Controllers
             try
             {
                 var photos = await _photoRepository.GetPhotosAsync();
+                // Specfic filter - visitor get photos ==> return visitor_admin's photo
+                var (userId, userRole) = GetCurrentUserInfo();
+                if (userRole != Models.Role.Admin)
+                {
+                    var currentUser = await _userRepository.GetUserAsync(userId);
+                    var relatedAdminUser = await _userRepository.GetUserAsync($"{currentUser.Username}_admin");
+                    photos = photos.Where(p => p.UserId == relatedAdminUser.Id);
+                }
+
                 var photosDTO = photos.Select(photo => _mapper.Map<DTOs.Photo>(photo));
                 return Ok(photosDTO);
             }
@@ -53,6 +66,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // GET api/Photos/5
+        [Authorize(Roles = Models.Role.Admin)]
         [HttpGet("{id}", Name = "GetPhoto")]
         public async Task<ActionResult<DTOs.Photo>> GetAsync(int id)
         {
@@ -80,7 +94,10 @@ namespace PhotoMasterBackend.Controllers
                 if (photo == null)
                     return BadRequest($"Photo object from body is null.");
                 // Create photo
-                var createdPhoto = await _photoRepository.AddPhotoAsync(_mapper.Map<Models.Photo>(photo));
+                var (userId, userRole) = GetCurrentUserInfo();
+                var photoModel = _mapper.Map<Models.Photo>(photo);
+                photoModel.UserId = userId;
+                var createdPhoto = await _photoRepository.AddPhotoAsync(photoModel);
                 // Get created photo
                 var photoDTO = _mapper.Map<DTOs.Photo>(await _photoRepository.GetPhotoAsync(createdPhoto.Id));
                 return CreatedAtRoute("GetPhoto", new { id = photoDTO.Id }, photoDTO);
@@ -180,6 +197,14 @@ namespace PhotoMasterBackend.Controllers
                     if (labelIds.Intersect(ids).Count() == ids.Count())
                         photos.Add(photo);
                 }
+                // Specfic filter - visitor get photos ==> return visitor_admin's photo
+                var (userId, userRole) = GetCurrentUserInfo();
+                if (userRole != Models.Role.Admin)
+                {
+                    var currentUser = await _userRepository.GetUserAsync(userId);
+                    var relatedAdminUser = await _userRepository.GetUserAsync($"{currentUser.Username}_admin");
+                    photos = photos.Where(p => p.UserId == relatedAdminUser.Id).ToList();
+                }
 
                 var photosDTO = photos.Select(photo => _mapper.Map<DTOs.Photo>(photo));
                 return Ok(photosDTO);
@@ -265,7 +290,8 @@ namespace PhotoMasterBackend.Controllers
                         continue;
 
                     // Create new photo
-                    var photo = await _photoRepository.AddPhotoAsync(new Models.Photo());
+                    var (userId, userRole) = GetCurrentUserInfo();
+                    var photo = await _photoRepository.AddPhotoAsync(new Models.Photo() { UserId = userId});
                     // Save photo on disk
                     var fileName = $"{photo.Id}_{ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"')}";
                     using (var stream = new FileStream(Path.Combine(pathToSave, fileName), FileMode.Create))
@@ -304,6 +330,13 @@ namespace PhotoMasterBackend.Controllers
                 if (labelIds.Intersect(ids).Any())
                     yield return photo;
             }
+        }
+
+        private (int, string) GetCurrentUserInfo()
+        {
+            var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Name).Value);
+            var userRole = _httpContextAccessor.HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+            return (userId, userRole);
         }
     }
 }

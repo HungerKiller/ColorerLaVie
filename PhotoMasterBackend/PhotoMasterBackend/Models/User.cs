@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PhotoMasterBackend.Models
 {
@@ -17,6 +18,8 @@ namespace PhotoMasterBackend.Models
         public string Role { get; set; }
 
         public string Token { get; set; }
+
+        public ICollection<Photo> Photos { get; set; }
     }
 
     public static class Role

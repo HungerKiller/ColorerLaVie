@@ -24,6 +24,11 @@ namespace PhotoMasterBackend.Repositories
             return await _context.Users.FindAsync(userId);
         }
 
+        public async Task<User> GetUserAsync(string username)
+        {
+            return await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
+        }
+
         public async Task<User> GetUserAsync(string username, string password)
         {
             return await _context.Users.SingleOrDefaultAsync(u => u.Username == username && u.Password == password);

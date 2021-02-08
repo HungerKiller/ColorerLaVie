@@ -177,7 +177,7 @@ namespace PhotoMasterBackend.Controllers
                     new Claim(ClaimTypes.Name, userRetrieved.Id.ToString()),
                     new Claim(ClaimTypes.Role, userRetrieved.Role)
                 }),
-                Expires = DateTime.UtcNow.AddDays(5),
+                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

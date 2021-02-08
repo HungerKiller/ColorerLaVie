@@ -31,6 +31,22 @@ namespace PhotoMasterBackend.Data
                 context.Labels.Add(label);
             }
             context.SaveChanges();
+
+            // Initialize users
+            var users = new User[]
+            {
+                new User { Username = "user_admin", Password = "0761174569", Role = Role.Admin},
+                new User { Username = "user", Password = "user", Role = Role.Friend},
+                new User { Username = "visitor_admin", Password = "0761174569", Role = Role.Admin},
+                new User { Username = "visitor", Password = "visitor", Role = Role.Visitor}
+            };
+
+            // Add users into DB
+            foreach (var user in users)
+            {
+                context.Users.Add(user);
+            }
+            context.SaveChanges();
         }
     }
 }

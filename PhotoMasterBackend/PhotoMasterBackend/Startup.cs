@@ -81,6 +81,8 @@ namespace PhotoMasterBackend
 
             services.AddDirectoryBrowser();
 
+            services.AddHttpContextAccessor();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
