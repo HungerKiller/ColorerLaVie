@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace PhotoMasterBackend.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PhotosController : ControllerBase
@@ -69,6 +71,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // POST api/Photos
+        [Authorize(Roles = Models.Role.Admin)]
         [HttpPost]
         public async Task<ActionResult<DTOs.Photo>> PostAsync([FromBody] DTOs.Photo photo)
         {
@@ -91,6 +94,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // PUT api/Photos/5
+        [Authorize(Roles = Models.Role.Admin)]
         [HttpPut("{id}")]
         public async Task<ActionResult<DTOs.Photo>> PutAsync(int id, [FromBody] DTOs.Photo photo)
         {
@@ -127,6 +131,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // DELETE api/Photos/5
+        [Authorize(Roles = Models.Role.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -188,6 +193,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // POST api/Photos/Upload/5
+        [Authorize(Roles = Models.Role.Admin)]
         [HttpPost("Upload/{id}"), DisableRequestSizeLimit]
         public async Task<ActionResult<DTOs.Photo>> UploadAsync(int id)
         {
@@ -240,6 +246,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // POST api/Photos/MultiUpload
+        [Authorize(Roles = Models.Role.Admin)]
         [HttpPost("MultiUpload"), DisableRequestSizeLimit]
         public async Task<ActionResult<IEnumerable<DTOs.Photo>>> MultiUploadAsync()
         {

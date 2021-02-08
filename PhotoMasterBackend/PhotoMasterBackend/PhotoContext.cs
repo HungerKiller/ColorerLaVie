@@ -12,12 +12,14 @@ namespace PhotoMasterBackend
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<PhotoLabel> PhotoLabels { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Photo>().ToTable("Photos");
             modelBuilder.Entity<Label>().ToTable("Labels");
             modelBuilder.Entity<PhotoLabel>().ToTable("PhotoLabels");
+            modelBuilder.Entity<User>().ToTable("Users");
         }
     }
 }

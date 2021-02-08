@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PhotoMasterBackend.Mappings;
 using PhotoMasterBackend.Repositories;
@@ -17,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PhotoMasterBackend
@@ -37,9 +40,31 @@ namespace PhotoMasterBackend
         {
             services.AddDbContext<PhotoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PhotoDatabase")));
 
+            // Jwt authentication
+            var jwtSecret = Configuration.GetSection("JwtSecret").Value;
+            var key = Encoding.ASCII.GetBytes(jwtSecret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             // Repositories
             services.AddScoped<ILabelRepository, LabelRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // Auto Mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -100,6 +125,7 @@ namespace PhotoMasterBackend
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

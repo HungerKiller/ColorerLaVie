@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace PhotoMasterBackend.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class LabelsController : ControllerBase
@@ -64,6 +66,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // POST api/Labels
+        [Authorize(Roles = Models.Role.Admin)]
         [HttpPost]
         public async Task<ActionResult<DTOs.Label>> PostAsync([FromBody] DTOs.Label label)
         {
@@ -94,6 +97,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // PUT api/Labels/5
+        [Authorize(Roles = Models.Role.Admin)]
         [HttpPut("{id}")]
         public async Task<ActionResult<DTOs.Label>> PutAsync(int id, [FromBody] DTOs.Label label)
         {
@@ -126,6 +130,7 @@ namespace PhotoMasterBackend.Controllers
         }
 
         // DELETE api/Labels/5
+        [Authorize(Roles = Models.Role.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

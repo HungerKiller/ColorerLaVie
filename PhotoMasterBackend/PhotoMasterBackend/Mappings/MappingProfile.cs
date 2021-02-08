@@ -23,6 +23,8 @@ namespace PhotoMasterBackend.Mappings
             // todo 新建时，Photo的Id都是0。但是在添加PhotoLabels时，EF会自动找到PhotoLabels中的PhotoId，所以此处即使写了source.Id + 999，EF也会自动识别到对的PhotoId
             // 更新时，原理一样
             // 因为这个工作是EF做的，所以为了准确性，可能需要手动验证？
+            CreateMap<Models.User, DTOs.User>();
+            CreateMap<DTOs.User, Models.User>();
         }
     }
 }
