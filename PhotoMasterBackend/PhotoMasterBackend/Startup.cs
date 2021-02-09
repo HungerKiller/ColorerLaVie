@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PhotoMasterBackend.Mappings;
+using PhotoMasterBackend.Middlewares;
 using PhotoMasterBackend.Repositories;
 using System;
 using System.Collections.Generic;
@@ -126,6 +127,9 @@ namespace PhotoMasterBackend
             app.UseCors(MyAllowSpecificOrigins);
 
             app.UseRouting();
+
+            // Custom message middleware
+            app.UseMessage();
 
             app.UseAuthentication();
             app.UseAuthorization();
