@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/Models/User';
+import { UserService } from 'src/app/Services/user.service';
 
 @Component({
   selector: 'app-home-view',
@@ -18,10 +20,11 @@ export class HomeViewComponent implements OnInit {
     color: "#A93226"
   }
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.setStyle();
+    this.loginAsVisitor();
   }
 
   setStyle() {
@@ -31,5 +34,22 @@ export class HomeViewComponent implements OnInit {
         this.index = this.index - this.colors.length;
       this.styles.color = this.colors[this.index];
     }, 2000);
+  }
+
+  loginAsVisitor(): void {
+    localStorage.clear();
+    if(localStorage.getItem("token") != null)
+      return;
+    this.userService.getToken(new User(0, "null", "null", "visitor", "visitor", "null", "null"))
+      .subscribe({
+        next: data => {
+          localStorage.setItem("username", data.username);
+          localStorage.setItem("userrole", data.role);
+          localStorage.setItem("token", data.token);
+        },
+        error: error => {
+          console.log(error.error);
+        }
+      });
   }
 }
