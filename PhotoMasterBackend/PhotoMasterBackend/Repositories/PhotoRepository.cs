@@ -42,7 +42,8 @@ namespace PhotoMasterBackend.Repositories
                     result.Date = photo.Date;
                     result.Location = photo.Location;
                     result.Description = photo.Description;
-                    result.UserId = photo.UserId;
+                    if (photo.UserId != 0)
+                        result.UserId = photo.UserId;
                     // todo 用这种方式更新ICollection，即使只想改一个值，也会删除DB中所有行，再重新添加
                     // 所以为了perfo，可能需要直接操作关系表
                     result.PhotoLabels = photo.PhotoLabels;
