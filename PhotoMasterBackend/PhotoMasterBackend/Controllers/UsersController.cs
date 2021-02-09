@@ -182,6 +182,7 @@ namespace PhotoMasterBackend.Controllers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             userRetrieved.Token = tokenHandler.WriteToken(token);
+            userRetrieved.Password = "";
             var userDTO = _mapper.Map<DTOs.User>(userRetrieved);
             return Ok(userDTO);
         }
