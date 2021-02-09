@@ -1,4 +1,4 @@
-<nz-back-top></nz-back-top>
+<nz-back-top class="back-to-top"></nz-back-top>
 <nz-image-group class="gallery" id="gallery" (window:resize)="onResize($event)">
     <div class="gallery-item" *ngFor="let url of urls">
         <div class="content">
@@ -7,7 +7,7 @@
     </div>
 </nz-image-group>
 
-<nz-affix class="affixSelector" [nzOffsetTop]="10">
+<nz-affix class="affixSelector" [nzOffsetTop]="50">
     <button class="btnSelector" nz-button nzType="default" (click)="open()">
         <i nz-icon nzType="aim" nzTheme="outline"></i>
     </button>
