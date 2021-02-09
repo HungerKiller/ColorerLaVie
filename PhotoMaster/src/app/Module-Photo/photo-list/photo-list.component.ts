@@ -18,11 +18,11 @@ export class PhotoListComponent implements OnInit {
 
   @ViewChild(PhotoDetailComponent) photoDetailComponent: PhotoDetailComponent;
 
-  url: string;
   photos: Photo[];
   displayPhotos: Photo[];
   host = ApiRoute.APPSERVICEHOST;
   loading = true;
+  currentUploadPhotoId: number;
 
   // Varibale of table function
   searchLocationValue: string;
@@ -77,21 +77,34 @@ export class PhotoListComponent implements OnInit {
     this.photoService.getPhotos().subscribe(photos => { this.loading = false; this.photos = photos; this.displayPhotos = photos; });
   }
 
-  // Upload photo
-  setUrl(photoId: number): void {
-    this.url = ApiRoute.PHOTO.uploadPhoto(photoId);
+  // Solo upload
+  public uploadFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    let filesToUpload: File[] = files;
+    const formData = new FormData();
+
+    Array.from(filesToUpload).map((file, index) => {
+      return formData.append('file' + index, file, file.name);
+    });
+
+    this.photoService.uploadPhoto(this.currentUploadPhotoId, formData)
+      .subscribe({
+        next: data => {
+          this.messageService.create("success", `File is uploaded successfully!`);
+          this.refresh();
+        },
+        error: error => {
+          this.messageService.create("error", error.error);
+        }
+      });
   }
 
-  handleChange(info: NzUploadChangeParam): void {
-    // if (info.file.status !== 'uploading') {
-    //   console.log(info.file, info.fileList);
-    // }
-    if (info.file.status === 'done') {
-      this.messageService.success(`${info.file.name} file uploaded successfully`);
-      this.refresh();
-    } else if (info.file.status === 'error') {
-      this.messageService.error(`${info.file.name} file upload failed.`);
-    }
+  soloUpload(photoId: number) {
+    this.currentUploadPhotoId = photoId;
+    let upload = <HTMLInputElement>document.querySelector('#file-upload');
+    upload.click();
   }
 
   // Multi upload
@@ -119,7 +132,7 @@ export class PhotoListComponent implements OnInit {
   }
 
   multiUpload() {
-    let upload = <HTMLInputElement>document.querySelector('#file-upload');
+    let upload = <HTMLInputElement>document.querySelector('#files-upload');
     upload.click();
   }
 

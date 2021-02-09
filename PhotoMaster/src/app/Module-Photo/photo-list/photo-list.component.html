@@ -10,7 +10,7 @@
         nzTooltipPlacement="topLeft" nz-tooltip>
         <i nz-icon nzType="cloud-upload" nzTheme="outline"></i>
       </button>
-      <input id="file-upload" type="file" #file nz-input placeholder="Choose file" (change)="uploadFiles(file.files)"
+      <input id="files-upload" type="file" #file nz-input placeholder="Choose files" (change)="uploadFiles(file.files)"
         multiple>
     </div>
     <br />
@@ -50,13 +50,12 @@
                 <i nz-icon nzType="edit" nzTheme="fill"></i>
               </button>
               <nz-divider nzType="vertical"></nz-divider>
-              <nz-upload [nzAction]="url" nzListType="text" [nzShowUploadList]="false"
-                (nzChange)="handleChange($event)">
-                <button class="bUpload" nz-button nzType="primary" (click)="setUrl(data.id)" nzTooltipTitle="Upload"
-                  nzTooltipPlacement="topLeft" nz-tooltip>
-                  <i nz-icon nzType="upload"></i>
-                </button>
-              </nz-upload>
+              <button nz-button nzType="primary" (click)="soloUpload(data.id)" nzTooltipTitle="Upload"
+                nzTooltipPlacement="topLeft" nz-tooltip>
+                <i nz-icon nzType="upload"></i>
+              </button>
+              <input id="file-upload" type="file" #file nz-input placeholder="Choose file"
+                (change)="uploadFile(file.files)">
               <nz-divider nzType="vertical"></nz-divider>
               <button nz-button nzType="primary" nzDanger nzTooltipTitle="Delete" nzTooltipPlacement="topLeft"
                 nz-tooltip nz-popconfirm nzPopconfirmTitle="Are you sure to delete?" nzOkText="ok" nzCancelText="cancel"
